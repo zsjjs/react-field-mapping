@@ -60,5 +60,4 @@ typings/
 .idea/
 ~$*
 *.DS_Store
-dist/*-*.js*
 *-lock.json
