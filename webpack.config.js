@@ -3,7 +3,7 @@ const path = require("path");
 const webpack = require("webpack");
 const env = process.env.NODE_ENV;
 const entry = {
-  "react-field-mapping": './src/index.js'
+  fieldmapping: './src/index.js'
 };
 const plugins = [
   new webpack.HotModuleReplacementPlugin(),

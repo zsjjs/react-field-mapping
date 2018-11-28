@@ -1,7 +1,7 @@
 
 {
   "name": "react-field-mapping",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "基于react的表字段映射组件",
   "scripts": {
     "check": "jsinspect ./src",
@@ -22,7 +22,7 @@
   "bugs": "https://github.com/agro-brain/react-field-mapping/issues",
   "author": "yanjun",
   "license": "MIT",
-  "main": "dist/react-field-mapping.js",
+  "main": "dist/fieldmapping.js",
   "jsnext:main": "src/index.js",
   "repository": "https://github.com/agro-brain/react-field-mapping.git",
   "files": [
