@@ -72,7 +72,7 @@
     </tr>
 </table>
 
-### View the <a href="https://codepen.io/godIsMe/pen/NEXzgr">Demo</a> and its <a href="https://github.com/zsjjs/react-zoomable/blob/master/example/test.js">source</a> for more.
+### View the <a href="https://codepen.io/godIsMe/pen/NEXzgr">Demo</a> and its <a href="https://github.com/zsjjs/react-field-mapping/blob/master/example/test.js">source</a> for more.
 
 ``` js
     import FieldMapping from 'react-field-mapping';
