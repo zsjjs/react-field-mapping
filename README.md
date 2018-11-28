@@ -7,71 +7,6 @@
 
 #### 基于react的表字段映射组件
 
-##### API
-
-<table border="1">
-    <tr>
-      <th>参数</th>
-      <th>说明</th>
-      <th align="center">类型</th>
-      <th align="center">默认值</th>
-    </tr>
-    <tr>
-      <td>className</td>
-      <td>自定义class</td>
-      <td align="center">string</td>
-      <td align="center">""</td>
-    </tr>
-    <tr>
-      <td>style</td>
-      <td>自定义style</td>
-      <td align="center">object</td>
-      <td align="center">{}</td>
-    </tr>
-    <tr>
-      <td>sourceData</td>
-      <td>源数据表</td>
-      <td align="center">array[{name, type}]</td>
-      <td align="center">[]</td>
-    </tr>
-    <tr>
-      <td>targetData</td>
-      <td>自定义style</td>
-      <td align="center">array[{name, type}]</td>
-      <td align="center">[]</td>
-    </tr>
-    <tr>
-      <td>relation</td>
-      <td>默认已映射数据</td>
-      <td align="center">array[{source:{name,type}, target:{name,type}}]</td>
-      <td align="center">[]</td>
-    </tr>
-    <tr>
-      <td>onChange</td>
-      <td>映射变化监听</td>
-      <td align="center">function(relation)</td>
-      <td align="center">-</td>
-    </tr>
-    <tr>
-      <td>onDrawStart</td>
-      <td>开始关联监听</td>
-      <td align="center">function(source, relation)</td>
-      <td align="center">-</td>
-    </tr>
-    <tr>
-      <td>onDrawing</td>
-      <td>关联进行中监听</td>
-      <td align="center">object</td>
-      <td align="center">-</td>
-    </tr>
-    <tr>
-      <td>onDrawEnd</td>
-      <td>关联结束监听</td>
-      <td align="center">function(source, relation)</td>
-      <td align="center">-</td>
-    </tr>
-</table>
-
 ### View the <a href="https://codepen.io/godIsMe/pen/NEOdXJ">Demo</a> and its <a href="https://github.com/zsjjs/react-field-mapping/blob/master/example/test.js">source</a> for more.
 
 ``` js
@@ -150,3 +85,68 @@
       document.getElementById('Test')
     );
 ```
+
+##### API
+
+<table border="1">
+    <tr>
+      <th>参数</th>
+      <th>说明</th>
+      <th align="center">类型</th>
+      <th align="center">默认值</th>
+    </tr>
+    <tr>
+      <td>className</td>
+      <td>自定义class</td>
+      <td align="center">string</td>
+      <td align="center">""</td>
+    </tr>
+    <tr>
+      <td>style</td>
+      <td>自定义style</td>
+      <td align="center">object</td>
+      <td align="center">{}</td>
+    </tr>
+    <tr>
+      <td>sourceData</td>
+      <td>源数据表</td>
+      <td align="center">array[{name, type}]</td>
+      <td align="center">[]</td>
+    </tr>
+    <tr>
+      <td>targetData</td>
+      <td>自定义style</td>
+      <td align="center">array[{name, type}]</td>
+      <td align="center">[]</td>
+    </tr>
+    <tr>
+      <td>relation</td>
+      <td>默认已映射数据</td>
+      <td align="center">array[{source:{name,type}, target:{name,type}}]</td>
+      <td align="center">[]</td>
+    </tr>
+    <tr>
+      <td>onChange</td>
+      <td>映射变化监听</td>
+      <td align="center">function(relation)</td>
+      <td align="center">-</td>
+    </tr>
+    <tr>
+      <td>onDrawStart</td>
+      <td>开始关联监听</td>
+      <td align="center">function(source, relation)</td>
+      <td align="center">-</td>
+    </tr>
+    <tr>
+      <td>onDrawing</td>
+      <td>关联进行中监听</td>
+      <td align="center">object</td>
+      <td align="center">-</td>
+    </tr>
+    <tr>
+      <td>onDrawEnd</td>
+      <td>关联结束监听</td>
+      <td align="center">function(source, relation)</td>
+      <td align="center">-</td>
+    </tr>
+</table>
