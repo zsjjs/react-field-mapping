@@ -1,16 +1,36 @@
+
 {
   "name": "react-field-mapping",
   "version": "0.0.1",
-  "description": "middleground_admin",
+  "description": "基于react的表字段映射组件",
   "scripts": {
     "check": "jsinspect ./src",
     "clear": "rm -rf dist&& mkdir dist",
-    "build": "npm run clear && cross-env NODE_ENV=production webpack --mode production --progress",
+    "build": "npm run clear && cross-env NODE_ENV=production webpack --progress",
     "start": "cross-env NODE_ENV=development webpack-dev-server --content-base"
   },
-  "keywords": [],
-  "author": "yanjun.zsj",
+  "keywords": [
+    "react",
+    "drag",
+    "js",
+    "npm",
+    "field",
+    "table",
+    "mapping"
+  ],
+  "homepage": "https://github.com/agro-brain/react-field-mapping",
+  "bugs": "https://github.com/agro-brain/react-field-mapping/issues",
+  "author": "yanjun",
   "license": "MIT",
+  "main": "dist/react-field-mapping.js",
+  "jsnext:main": "src/index.js",
+  "repository": "https://github.com/agro-brain/react-field-mapping.git",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "eslint": "^5.0.1",

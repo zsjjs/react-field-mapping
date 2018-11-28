@@ -1,9 +1,9 @@
 # react-field-mapping
 
-[![npm version](https://img.shields.io/npm/v/react-stretchable.svg?style=flat)](https://www.npmjs.com/package/react-stretchable)
-[![download](https://img.shields.io/npm/dm/react-stretchable.svg?style=flat)](https://www.npmjs.com/package/react-stretchable)
-![gzip size](http://img.badgesize.io/https://npmcdn.com/react-stretchable/dist/zoomable.js?compression=gzip)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.githubusercontent.com/zsjjs/react-stretchable/master/LICENSE)
+[![npm version](https://img.shields.io/npm/v/react-field-mapping.svg?style=flat)](https://www.npmjs.com/package/react-field-mapping)
+[![download](https://img.shields.io/npm/dm/react-field-mapping.svg?style=flat)](https://www.npmjs.com/package/react-field-mapping)
+![gzip size](http://img.badgesize.io/https://npmcdn.com/react-field-mapping/dist/react-field-mapping.js?compression=gzip)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.githubusercontent.com/zsjjs/react-field-mapping/master/LICENSE)
 
 #### 基于react的表字段映射组件
 
@@ -72,7 +72,7 @@
     </tr>
 </table>
 
-### View the <a href="https://codepen.io/godIsMe/pen/NEXzgr">Demo</a> and its <a href="https://github.com/zsjjs/react-field-mapping/blob/master/example/test.js">source</a> for more.
+### View the <a href="https://codepen.io/godIsMe/pen/NEOdXJ">Demo</a> and its <a href="https://github.com/zsjjs/react-field-mapping/blob/master/example/test.js">source</a> for more.
 
 ``` js
     import FieldMapping from 'react-field-mapping';
