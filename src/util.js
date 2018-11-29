@@ -34,11 +34,8 @@ export const getOffset = (ele) => {
   return NaN;
 };
 //根据入参relation生成含线条坐标位置的relation
-const bodyDom = document.body;
-const htmlDom = document.documentElement;
-const baseX= pxToNum(getStyleAttr(bodyDom, "marginLeft")) + pxToNum(getStyleAttr(bodyDom, "paddingLeft")) + pxToNum(getStyleAttr(htmlDom, "marginLeft")) + pxToNum(getStyleAttr(htmlDom, "paddingLeft"));
-const baseY= pxToNum(getStyleAttr(bodyDom, "marginTop")) + pxToNum(getStyleAttr(bodyDom, "paddingTop")) + pxToNum(getStyleAttr(htmlDom, "marginTop")) + pxToNum(getStyleAttr(htmlDom, "paddingTop"));
 export const calCoord = (data = [], FieldMapping) => {
+  const baseXY = getOffset(FieldMapping.sourceCom.boxEle.offsetParent);
   return data.map(item => {
     let sourceNum = 1;
     let targetNum = 1;
@@ -54,10 +51,10 @@ export const calCoord = (data = [], FieldMapping) => {
     });
     const sourcePoint = sourceEle.getElementsByTagName('li')[sourceNum].querySelector('.column-icon');
     const targetPoint = targetEle.getElementsByTagName('li')[targetNum].querySelector('.column-icon');
-    item.source.x = getOffset(sourcePoint).left - baseX + 6;
-    item.source.y = getOffset(sourcePoint).top - baseY + 6;
-    item.target.x = getOffset(targetPoint).left - baseX + 6;
-    item.target.y = getOffset(targetPoint).top - baseY + 6;
+    item.source.x = getOffset(sourcePoint).left - baseXY.left + 6;
+    item.source.y = getOffset(sourcePoint).top - baseXY.top + 6;
+    item.target.x = getOffset(targetPoint).left - baseXY.left + 6;
+    item.target.y = getOffset(targetPoint).top - baseXY.top + 6;
     return item;
   });
 };

@@ -1,12 +1,8 @@
 import {Component} from 'react';
-import { getStyleAttr, pxToNum, getOffset } from './util.js';
+import { getOffset } from './util.js';
 import Line from './line.jsx';
 import _ from 'lodash';
 
-const bodyDom = document.body;
-const htmlDom = document.documentElement;
-const baseX= pxToNum(getStyleAttr(bodyDom, "marginLeft")) + pxToNum(getStyleAttr(bodyDom, "paddingLeft")) + pxToNum(getStyleAttr(htmlDom, "marginLeft")) + pxToNum(getStyleAttr(htmlDom, "paddingLeft"));
-const baseY= pxToNum(getStyleAttr(bodyDom, "marginTop")) + pxToNum(getStyleAttr(bodyDom, "paddingTop")) + pxToNum(getStyleAttr(htmlDom, "marginTop")) + pxToNum(getStyleAttr(htmlDom, "paddingTop"));
 const defaultState = {
   sourceData: {},
   startX: 0,
@@ -21,11 +17,19 @@ class DrawLines extends Component {
     super(props);
     this.state = {
       relation:[],
+      baseXY:{
+        left: 0,
+        top: 0
+      },
       ...defaultState
     };
   }
   componentDidMount() {
     const me = this;
+    const baseXY = getOffset(this.drawEle);
+    this.setState({
+      baseXY
+    });
     document.documentElement.onmousedown = (event) => {
       document.body.classList.add("user-select-none");
       const eventDom = event.target;
@@ -50,8 +54,8 @@ class DrawLines extends Component {
       if (this.state.drawing) {
         me.props.onDrawing && me.props.onDrawing(me.state.sourceData, me.props.relation);
         me.setState({
-          endX: event.pageX - baseX,
-          endY: event.pageY - baseY
+          endX: event.pageX - baseXY.left,
+          endY: event.pageY - baseXY.top
         });
       }
     };
@@ -93,8 +97,8 @@ class DrawLines extends Component {
   }
   domOperate(eventDom) {
     return {
-      left: getOffset(eventDom).left - baseX + 6,
-      top: getOffset(eventDom).top - baseY + 6,
+      left: getOffset(eventDom).left - this.state.baseXY.left + 6,
+      top: getOffset(eventDom).top - this.state.baseXY.top + 6,
       fieldName: eventDom.offsetParent.getAttribute('data-key')
     };
   }
@@ -116,7 +120,7 @@ class DrawLines extends Component {
   render() {
     const { startX, startY, drawing, endX, endY } = this.state;
     const { relation, currentRelation } = this.props;
-    return <div className="lines-area">
+    return <div className="lines-area" ref={me => {this.drawEle = me;}}>
       <svg width="100%" height="100%" version="1.1"
            xmlns="http://www.w3.org/2000/svg">
         <defs>

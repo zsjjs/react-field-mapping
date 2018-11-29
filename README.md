@@ -119,13 +119,20 @@
           //   console.log("onChange", relation);
           // }
         };
-        return <div style={{
-          width: 1000
-        }}>
-          <FieldMapping {...option} />
-          <button onClick={this.getRelation.bind(this)}>获取映射关系</button>
-          <button onClick={this.sameLine.bind(this)}>同行关联</button>
-          <button onClick={this.sameName.bind(this)}>同名关联</button>
+        return <div>
+          <div style={{width:"1000px",height: "200px"}}></div>
+          <div>
+            <div style={{width:"100px",height: "200px",float:"left"}}></div>
+            <div style={{
+              width: 800,
+              float: "left"
+            }}>
+              <FieldMapping {...option} />
+              <button onClick={this.getRelation.bind(this)}>获取映射关系</button>
+              <button onClick={this.sameLine.bind(this)}>同行关联</button>
+              <button onClick={this.sameName.bind(this)}>同名关联</button>
+            </div>
+          </div>
         </div>;
       }
     };
