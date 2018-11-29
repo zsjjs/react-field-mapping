@@ -1,4 +1,4 @@
-const data = [{
+const sourceData = [{
   name: "field1",
   type: "string"
 }, {
@@ -16,24 +16,22 @@ const data = [{
 }, {
   name: "field6",
   type: "string"
+}];
+const targetData = [{
+  name: "field4",
+  type: "string"
 }, {
-  name: "field7",
+  name: "field5",
+  type: "string"
+}, {
+  name: "field6",
   type: "string"
 }];
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-  }
-  getRelation() {
-    const relation = JSON.stringify(this.mapping.state.relation);
-    alert(relation);
-  }
-  render() {
-    const option = {
-      ref: (me) => {this.mapping = me;},
-      sourceData: data,
-      targetData: data,
+    this.state = {
       relation: [{
         source: {
           name: "field1",
@@ -44,6 +42,52 @@ class App extends React.Component {
           type: "xxxxxx"
         }
       }]
+    };
+  }
+  getRelation() {
+    const relation = this.mapping.state.relation;
+    console.log(relation);
+    const res = {};
+    relation.map(item => {
+      res[item.source.name] = item.target.name;
+    });
+    alert(JSON.stringify(res));
+  }
+  sameLine() {
+    const len = sourceData.length > targetData.length ? targetData.length : sourceData.length;
+    const relation = [];
+    for(let i=0; i<len; i++ ) {
+      relation.push({
+        source: sourceData[i],
+        target: targetData[i]
+      });
+    }
+    this.setState({
+      relation
+    });
+  }
+  sameName() {
+    const relation = [];
+    sourceData.map(item => {
+      targetData.map(n => {
+        if(item.name === n.name) {
+          relation.push({
+            source: item,
+            target: n
+          });
+        }
+      });
+    });
+    this.setState({
+      relation
+    });
+  }
+  render() {
+    const option = {
+      ref: (me) => {this.mapping = me;},
+      sourceData: sourceData,
+      targetData: targetData,
+      relation: this.state.relation
       // onDrawStart: (source, relation) => {
       //   console.log("onDrawStart: ", source, relation);
       // },
@@ -62,6 +106,8 @@ class App extends React.Component {
     }}>
       <FieldMapping {...option} />
       <button onClick={this.getRelation.bind(this)}>获取映射关系</button>
+      <button onClick={this.sameLine.bind(this)}>同行关联</button>
+      <button onClick={this.sameName.bind(this)}>同名关联</button>
     </div>;
   }
 };

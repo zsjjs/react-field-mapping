@@ -23,13 +23,15 @@ class FieldMapping extends Component {
       currentRelation: {}
     };
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.relation !== this.props.relation) {
+      const relation = calCoord(_.assign([], nextProps.relation), this);
+      this.changeRelation(relation);
+    }
+  }
   componentDidMount() {
-    setTimeout(() => {
-      const relation = calCoord(_.assign([], this.props.relation), this);
-      this.setState({
-        relation
-      });
-    }, 100);
+    const relation = calCoord(_.assign([], this.props.relation), this);
+    this.changeRelation(relation);
   }
   changeRelation(relation) {
     this.setState({
