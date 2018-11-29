@@ -161,7 +161,7 @@
     </tr>
     <tr>
       <td>targetData</td>
-      <td>自定义style</td>
+      <td>目标数据表</td>
       <td align="center">array[{name, type}]</td>
       <td align="center">[]</td>
     </tr>
