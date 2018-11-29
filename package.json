@@ -18,13 +18,13 @@
     "table",
     "mapping"
   ],
-  "homepage": "https://github.com/agro-brain/react-field-mapping",
-  "bugs": "https://github.com/agro-brain/react-field-mapping/issues",
+  "homepage": "https://github.com/zsjjs/react-field-mapping",
+  "bugs": "https://github.com/zsjjs/react-field-mapping/issues",
   "author": "yanjun",
   "license": "MIT",
   "main": "dist/fieldmapping.js",
   "jsnext:main": "src/index.js",
-  "repository": "https://github.com/agro-brain/react-field-mapping.git",
+  "repository": "https://github.com/zsjjs/react-field-mapping.git",
   "files": [
     "dist",
     "src",

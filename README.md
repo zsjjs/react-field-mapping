@@ -122,10 +122,8 @@
         return <div>
           <div style={{width:"1000px",height: "200px"}}></div>
           <div>
-            <div style={{width:"100px",height: "200px",float:"left"}}></div>
             <div style={{
-              width: 800,
-              float: "left"
+              width: 800
             }}>
               <FieldMapping {...option} />
               <button onClick={this.getRelation.bind(this)}>获取映射关系</button>
