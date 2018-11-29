@@ -31,14 +31,15 @@ class SourceData extends Component {
     const {
       data,
       iconStatus,
-      relation
+      relation,
+      sourceTitle
     } = this.props;
     const renderContent = this.show(data, relation, iconStatus);
     return <div className="source-data" ref={(me) => {this.boxEle = me;}} >
       <ul>
         <li>
-          <span className="column-item">源头表字段</span>
-          <span className="column-item">类型</span>
+          <span className="column-item">{sourceTitle.name}</span>
+          <span className="column-item">{sourceTitle.type}</span>
         </li>
         {renderContent.map((item, index) =>
           <li

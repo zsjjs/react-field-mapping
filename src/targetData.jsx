@@ -29,14 +29,15 @@ class TargetData extends Component {
     const {
       data,
       iconStatus,
-      relation
+      relation,
+      targetTitle
     } = this.props;
     const renderContent = this.show(data, relation, iconStatus);
     return <div className="target-data" ref={(me) => {this.boxEle = me;}} >
       <ul>
         <li>
-          <span className="column-item">目标表字段</span>
-          <span className="column-item">类型</span>
+          <span className="column-item">{targetTitle.name}</span>
+          <span className="column-item">{targetTitle.type}</span>
         </li>
         {renderContent.map((item, index) =>
           <li

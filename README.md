@@ -100,6 +100,10 @@
         const option = {
           ref: (me) => {this.mapping = me;},
           sourceData: sourceData,
+          targetTitle: {
+            name: "自定义表头1",
+            type: "自定义表头2"
+          },
           targetData: targetData,
           relation: this.state.relation
           // onDrawStart: (source, relation) => {
@@ -154,10 +158,22 @@
       <td align="center">{}</td>
     </tr>
     <tr>
+      <td>sourceTitle</td>
+      <td>源数据表头</td>
+      <td align="center">object{name, type}]</td>
+      <td align="center">{name:"源表字段",type:"类型"}</td>
+    </tr>
+    <tr>
       <td>sourceData</td>
       <td>源数据表</td>
       <td align="center">array[{name, type}]</td>
       <td align="center">[]</td>
+    </tr>
+    <tr>
+      <td>targetTitle</td>
+      <td>目标数据表头</td>
+      <td align="center">object{name, type}]</td>
+      <td align="center">{name:"目标表字段",type:"类型"}</td>
     </tr>
     <tr>
       <td>targetData</td>

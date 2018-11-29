@@ -86,6 +86,10 @@ class App extends React.Component {
     const option = {
       ref: (me) => {this.mapping = me;},
       sourceData: sourceData,
+      targetTitle: {
+        name: "自定义表头1",
+        type: "自定义表头2"
+      },
       targetData: targetData,
       relation: this.state.relation
       // onDrawStart: (source, relation) => {

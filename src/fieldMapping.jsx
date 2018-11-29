@@ -67,6 +67,14 @@ class FieldMapping extends Component {
     const {
       className = "",
       style = {},
+      sourceTitle = {
+        name: "源表字段",
+        type: "类型"
+      },
+      targetTitle = {
+        name: "目标表字段",
+        type: "类型"
+      },
       onDrawStart,
       onDrawing,
       onDrawEnd
@@ -76,6 +84,7 @@ class FieldMapping extends Component {
       ref: (me) => {this.sourceCom = me;},
       iconStatus,
       relation,
+      sourceTitle,
       data: sourceData,
       currentRelation,
       overActive: this.overActive.bind(this)
@@ -84,6 +93,7 @@ class FieldMapping extends Component {
       ref: (me) => {this.targetCom = me;},
       iconStatus,
       relation,
+      targetTitle,
       data: targetData,
       currentRelation,
       overActive: this.overActive.bind(this)
@@ -110,8 +120,10 @@ class FieldMapping extends Component {
 FieldMapping.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
-  sourceData: PropTypes.array,// [{name,type}], "param name is required"
-  targetData: PropTypes.array,// [{name,type}], "param name is required"
+  sourceTitle: PropTypes.object, // 源表表头内容, default {name:"源头表字段",type:"类型"}
+  sourceData: PropTypes.array,// default [{name,type}] required param name
+  targetTitle: PropTypes.object, // 目标表表头内容, default {name:"目标表字段",type:"类型"}
+  targetData: PropTypes.array,// default [{name,type}] required param name
   relation: PropTypes.array,// [{source:{name, type}, target:{name, type}}], "param {source:{name},target:{name}} is required"
   onChange: PropTypes.func, // function(param= relation)
   onDrawStart: PropTypes.func,// function(params=source, relation)
