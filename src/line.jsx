@@ -1,3 +1,6 @@
+/* @author yanjun.zsj
+ * @date 2018.11
+*/
 import {Component} from 'react';
 const iconSize = [12, 12];
 class Line extends Component {

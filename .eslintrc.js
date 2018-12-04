@@ -1,3 +1,6 @@
+/* @author yanjun.zsj
+ * @date 2018.11
+*/
 module.exports = {
   "env": {
     "browser": true,

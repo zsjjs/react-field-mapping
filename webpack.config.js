@@ -1,3 +1,6 @@
+/* @author yanjun.zsj
+ * @date 2018.11
+*/
 /* global process,__dirname:true */
 const path = require("path");
 const webpack = require("webpack");

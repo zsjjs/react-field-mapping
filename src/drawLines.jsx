@@ -1,3 +1,6 @@
+/* @author yanjun.zsj
+ * @date 2018.11
+*/
 import {Component} from 'react';
 import { getOffset } from './util.js';
 import Line from './line.jsx';
@@ -31,10 +34,11 @@ class DrawLines extends Component {
       baseXY
     });
     document.documentElement.onmousedown = (event) => {
-      document.body.classList.add("user-select-none");
       const eventDom = event.target;
       const className = eventDom && eventDom.className;
-      if (className && typeof className === "string" && eventDom.className.indexOf("source-column-icon") > -1) {
+      if (className && typeof className === "string" && className.indexOf("source-column-icon") > -1) {
+        event.preventDefault();
+        document.body.classList.add("user-select-none");
         const sourceData = _.find(me.props.sourceData, (o) => {
           return o.name === this.domOperate(eventDom).fieldName;
         });
@@ -64,7 +68,7 @@ class DrawLines extends Component {
       const { startX, startY, sourceData } = me.state;
       const eventDom = event.target;
       const className = eventDom && eventDom.className;
-      if (className && typeof className === "string" && eventDom.className.indexOf("target-column-icon") > -1) {
+      if (className && typeof className === "string" && className.indexOf("target-column-icon") > -1) {
         const relation = _.assign([], me.props.relation);
         if(_.find(relation, (o) => {
           return o.target.name === me.domOperate(eventDom).fieldName;

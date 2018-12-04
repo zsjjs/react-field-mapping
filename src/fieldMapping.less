@@ -1,3 +1,6 @@
+/* @author yanjun.zsj
+ * @date 2018.11
+*/
 .text-ellipsis() {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -35,12 +38,11 @@ body {
           background-color: #fcfcfc;
           border-bottom: 1px dashed #dddddd;
           position: relative;
-          &:first-child {
-            border-bottom: none;
-            background-color: #f0f0f0;
-          }
           &.active {
             background-color: #eefbff;
+          }
+          &.sortable-ghost {
+            background-color: rgba(240, 224, 199, .3);
           }
           .column-item {
             padding-left: 20px;
@@ -73,15 +75,39 @@ body {
             }
           }
         }
+        &.column-title {
+          li {
+            border-bottom: none;
+            background-color: #f0f0f0;
+          }
+        }
       }
     }
     .source-data {
-      .column-icon {
-        right: -7px;
+      .column-content {
+        li {
+          .column-icon {
+            right: -7px;
+          }
+          &.active {
+            .column-icon {
+              visibility: inherit!important;
+              &.sorting {
+                visibility: hidden!important;
+              }
+            }
+          }
+        }
       }
-      li:hover {
-        .column-icon {
-          visibility: inherit!important;
+      .edit-btn {
+        padding-left: 20px;
+        line-height: 36px;
+        height: 36px;
+        background-color: #fcfcfc;
+        border-bottom: 1px dashed #dddddd;
+        a {
+          cursor: pointer;
+          color: #33B5D4;
         }
       }
     }

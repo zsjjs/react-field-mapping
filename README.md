@@ -40,6 +40,36 @@
     }, {
       name: "field6",
       type: "string"
+    }, {
+      name: "field7",
+      type: "string"
+    }, {
+      name: "field8",
+      type: "string"
+    }, {
+      name: "field9",
+      type: "string"
+    }, {
+      name: "field10",
+      type: "string"
+    }, {
+      name: "field11",
+      type: "string"
+    }, {
+      name: "field12",
+      type: "string"
+    }, {
+      name: "field13",
+      type: "string"
+    }, {
+      name: "field14",
+      type: "string"
+    }, {
+      name: "field15",
+      type: "string"
+    }, {
+      name: "field16",
+      type: "string"
     }];
     
     class App extends React.Component {
@@ -96,6 +126,11 @@
           relation
         });
       }
+      cancelRelation() {
+        this.setState({
+          relation: []
+        });
+      }
       render() {
         const option = {
           ref: (me) => {this.mapping = me;},
@@ -120,15 +155,16 @@
           // }
         };
         return <div>
-          <div style={{width:"1000px",height: "200px"}}></div>
           <div>
             <div style={{
               width: 800
             }}>
               <FieldMapping {...option} />
+              <br/>
               <button onClick={this.getRelation.bind(this)}>获取映射关系</button>
               <button onClick={this.sameLine.bind(this)}>同行关联</button>
               <button onClick={this.sameName.bind(this)}>同名关联</button>
+              <button onClick={this.cancelRelation.bind(this)}>取消关联</button>
             </div>
           </div>
         </div>;
@@ -185,6 +221,12 @@
       <td>目标数据表</td>
       <td align="center">array[{name, type}]</td>
       <td align="center">[]</td>
+    </tr>
+    <tr>
+      <td>isSort</td>
+      <td>是否开启字段排序</td>
+      <td align="center">boolean</td>
+      <td align="center">true</td>
     </tr>
     <tr>
       <td>relation</td>
