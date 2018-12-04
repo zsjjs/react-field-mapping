@@ -1,3 +1,6 @@
+/* @author yanjun.zsj
+ * @date 2018.11
+*/
 import './fieldMapping.less';
 import {Component} from 'react';
 import SourceData from './sourceData.jsx';
@@ -12,6 +15,9 @@ class FieldMapping extends Component {
     super(props);
     const sourceData = _.uniqWith(props.sourceData, (n1, n2) => {
       return n1.name === n2.name;
+    }).map(item => {
+      item.edit = false;
+      return item;
     });
     const targetData = _.uniqWith(props.targetData, (n1, n2) => {
       return n1.name === n2.name;
@@ -62,6 +68,19 @@ class FieldMapping extends Component {
       currentRelation
     });
   }
+  changeSource(oldIndex, newIndex, type) {
+    const data = {};
+    data[type] = _.assign([], this.state[type]);
+    const item = data[type].slice(oldIndex, oldIndex + 1);
+    data[type].splice(oldIndex, 1);
+    const dataS = data[type].slice(0, newIndex);
+    const dataE = data[type].slice(newIndex, data[type].length);
+    data[type] =  dataS.concat(item).concat(dataE);
+    this.setState(data, () => {
+      const relation = calCoord(_.assign([], this.props.relation), this);
+      this.changeRelation(relation);
+    });
+  }
   render() {
     const { relation, iconStatus, sourceData, targetData, currentRelation } = this.state;
     const {
@@ -75,6 +94,7 @@ class FieldMapping extends Component {
         name: "目标表字段",
         type: "类型"
       },
+      isSort = true,
       onDrawStart,
       onDrawing,
       onDrawEnd
@@ -87,6 +107,8 @@ class FieldMapping extends Component {
       sourceTitle,
       data: sourceData,
       currentRelation,
+      isSort,
+      changeSource: this.changeSource.bind(this),
       overActive: this.overActive.bind(this)
     };
     const targetOpt = {
@@ -96,6 +118,8 @@ class FieldMapping extends Component {
       targetTitle,
       data: targetData,
       currentRelation,
+      isSort,
+      changeSource: this.changeSource.bind(this),
       overActive: this.overActive.bind(this)
     };
     const drawLinesOpt = {
@@ -125,6 +149,7 @@ FieldMapping.propTypes = {
   targetTitle: PropTypes.object, // 目标表表头内容, default {name:"目标表字段",type:"类型"}
   targetData: PropTypes.array,// default [{name,type}] required param name
   relation: PropTypes.array,// [{source:{name, type}, target:{name, type}}], "param {source:{name},target:{name}} is required"
+  isSort: PropTypes.bool,// 是否开启拖拽排序，default true
   onChange: PropTypes.func, // function(param= relation)
   onDrawStart: PropTypes.func,// function(params=source, relation)
   onDrawing: PropTypes.func,// function(params=source, relation)

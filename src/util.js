@@ -1,3 +1,6 @@
+/* @author yanjun.zsj
+ * @date 2018.11
+*/
 export const getStyleAttr = (obj, attr) => {
   if(obj instanceof HTMLElement) {
     if (obj.currentStyle) {
@@ -37,17 +40,17 @@ export const getOffset = (ele) => {
 export const calCoord = (data = [], FieldMapping) => {
   const baseXY = getOffset(FieldMapping.sourceCom.boxEle.offsetParent);
   return data.map(item => {
-    let sourceNum = 1;
-    let targetNum = 1;
-    const sourceEle = FieldMapping.sourceCom.boxEle;
-    const targetEle = FieldMapping.targetCom.boxEle;
+    let sourceNum = 0;
+    let targetNum = 0;
+    const sourceEle = FieldMapping.sourceCom.boxEle.querySelector('.column-content');
+    const targetEle = FieldMapping.targetCom.boxEle.querySelector('.column-content');
     const sourceName = item.source.name;
     const targetName = item.target.name;
     FieldMapping.state.sourceData.map((n,i) => {
-      if (n.name === sourceName) sourceNum = i + 1;
+      if (n.name === sourceName) sourceNum = i;
     });
     FieldMapping.state.targetData.map((n,i) => {
-      if (n.name === targetName) targetNum = i + 1;
+      if (n.name === targetName) targetNum = i;
     });
     const sourcePoint = sourceEle.getElementsByTagName('li')[sourceNum].querySelector('.column-icon');
     const targetPoint = targetEle.getElementsByTagName('li')[targetNum].querySelector('.column-icon');
