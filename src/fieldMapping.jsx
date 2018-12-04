@@ -77,7 +77,7 @@ class FieldMapping extends Component {
     const dataE = data[type].slice(newIndex, data[type].length);
     data[type] =  dataS.concat(item).concat(dataE);
     this.setState(data, () => {
-      const relation = calCoord(_.assign([], this.props.relation), this);
+      const relation = calCoord(_.assign([], this.state.relation), this);
       this.changeRelation(relation);
     });
   }

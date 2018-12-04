@@ -71,7 +71,9 @@ class App extends React.Component {
           name: "field5",
           type: "xxxxxx"
         }
-      }]
+      }],
+      sourceData,
+      targetData
     };
   }
   getRelation() {
@@ -84,6 +86,7 @@ class App extends React.Component {
     alert(JSON.stringify(res));
   }
   sameLine() {
+    const {sourceData, targetData} = this.state;
     const len = sourceData.length > targetData.length ? targetData.length : sourceData.length;
     const relation = [];
     for(let i=0; i<len; i++ ) {
@@ -97,6 +100,7 @@ class App extends React.Component {
     });
   }
   sameName() {
+    const {sourceData, targetData} = this.state;
     const relation = [];
     sourceData.map(item => {
       targetData.map(n => {
@@ -119,14 +123,14 @@ class App extends React.Component {
   }
   render() {
     const option = {
-      ref: (me) => {this.mapping = me;},
+      ref: "mapping",
       sourceData: sourceData,
       targetTitle: {
         name: "自定义表头1",
         type: "自定义表头2"
       },
       targetData: targetData,
-      relation: this.state.relation
+      relation: this.state.relation,
       // onDrawStart: (source, relation) => {
       //   console.log("onDrawStart: ", source, relation);
       // },
@@ -136,9 +140,11 @@ class App extends React.Component {
       // onDrawEnd: (source, relation) => {
       //   console.log("onDrawEnd: ", source, relation);
       // },
-      // onChange: (relation) => {
-      //   console.log("onChange", relation);
-      // }
+      onChange: () => {
+        this.setState({
+          sourceData: this.refs.mapping.state.sourceData
+        });
+      }
     };
     return <div>
       <div>
