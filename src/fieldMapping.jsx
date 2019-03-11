@@ -94,7 +94,7 @@ class FieldMapping extends Component {
         name: "目标表字段",
         type: "类型"
       },
-      isSort = true,
+      isSort = false,
       onDrawStart,
       onDrawing,
       onDrawEnd

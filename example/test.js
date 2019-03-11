@@ -142,7 +142,8 @@ class App extends React.Component {
       // },
       onChange: () => {
         this.setState({
-          sourceData: this.refs.mapping.state.sourceData
+          sourceData: this.refs.mapping.state.sourceData,
+          targetData: this.refs.mapping.state.targetData
         });
       }
     };
