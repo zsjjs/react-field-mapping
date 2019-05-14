@@ -1,64 +1,20 @@
-const sourceData = [{
-  name: "field1",
-  type: "string"
-}, {
-  name: "field2",
-  type: "string"
-}, {
-  name: "field3",
-  type: "string"
-}, {
-  name: "field4",
-  type: "string"
-}, {
-  name: "field5",
-  type: "string"
-}, {
-  name: "field6",
-  type: "string"
-}];
-const targetData = [{
-  name: "field4",
-  type: "string"
-}, {
-  name: "field5",
-  type: "string"
-}, {
-  name: "field6",
-  type: "string"
-}, {
-  name: "field7",
-  type: "string"
-}, {
-  name: "field8",
-  type: "string"
-}, {
-  name: "field9",
-  type: "string"
-}, {
-  name: "field10",
-  type: "string"
-}, {
-  name: "field11",
-  type: "string"
-}, {
-  name: "field12",
-  type: "string"
-}, {
-  name: "field13",
-  type: "string"
-}, {
-  name: "field14",
-  type: "string"
-}, {
-  name: "field15",
-  type: "string"
-}, {
-  name: "field16",
-  type: "string"
-}];
+/*
+ * @Author: yanjun.zsj
+ * @LastEditors: yanjun.zsj
+ * @Date: 2019-03-11 16:43:26
+ * @LastEditTime: 2019-05-09 15:02:33
+ */
+const sourceData = new Array(7).fill().map((item, idx) => ({
+  name: `field${idx + 1}`,
+  type: 'string'
+}));
+const targetData = new Array(11).fill().map((item, idx) => ({
+  name: `field${idx + 4}`,
+  type: 'string'
+}));
 
-class App extends React.Component {
+class App extends React.PureComponent {
+  mapping = React.createRef();
   constructor(props) {
     super(props);
     this.state = {
@@ -77,7 +33,7 @@ class App extends React.Component {
     };
   }
   getRelation() {
-    const relation = this.mapping.state.relation;
+    const relation = this.mapping.current.state.relation;
     console.log(relation);
     const res = {};
     relation.map(item => {
@@ -123,7 +79,7 @@ class App extends React.Component {
   }
   render() {
     const option = {
-      ref: "mapping",
+      ref: this.mapping,
       sourceData: sourceData,
       targetTitle: {
         name: "自定义表头1",
@@ -142,8 +98,8 @@ class App extends React.Component {
       // },
       onChange: () => {
         this.setState({
-          sourceData: this.refs.mapping.state.sourceData,
-          targetData: this.refs.mapping.state.targetData
+          sourceData: this.mapping.current.state.sourceData,
+          targetData: this.mapping.current.state.targetData
         });
       }
     };
