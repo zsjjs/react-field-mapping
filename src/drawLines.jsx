@@ -30,6 +30,9 @@ class DrawLines extends Component {
   componentDidMount() {
     const me = this;
     const baseXY = getOffset(this.drawEle);
+    const box = document.querySelector('.react-field-mapping-box');
+    let scrollTop = 0;
+    let scrollLeft = 0;
     this.setState({
       baseXY
     });
@@ -38,6 +41,7 @@ class DrawLines extends Component {
       const className = eventDom && eventDom.className;
       if (className && typeof className === "string" && className.indexOf("source-column-icon") > -1) {
         event.preventDefault();
+        let scrollEle = box;
         document.body.classList.add("user-select-none");
         const sourceData = _.find(me.props.sourceData, (o) => {
           return o.name === this.domOperate(eventDom).fieldName;
@@ -52,14 +56,19 @@ class DrawLines extends Component {
           drawing: true,
           sourceData
         });
+        while(scrollEle.tagName !== 'BODY') {
+          scrollTop += scrollEle.scrollTop;
+          scrollLeft += scrollEle.scrollLeft;
+          scrollEle = scrollEle.parentElement;
+        }
       }
     };
     document.documentElement.onmousemove = (event) => {
       if (this.state.drawing) {
         me.props.onDrawing && me.props.onDrawing(me.state.sourceData, me.props.relation);
         me.setState({
-          endX: event.pageX - baseXY.left,
-          endY: event.pageY - baseXY.top
+          endX: event.pageX - baseXY.left + scrollLeft,
+          endY: event.pageY - baseXY.top + scrollTop
         });
       }
     };
@@ -97,6 +106,8 @@ class DrawLines extends Component {
       }
       me.props.changeIconStatus();
       me.setState({...defaultState});
+      scrollTop = 0;
+      scrollLeft = 0;
     };
   }
   domOperate(eventDom) {

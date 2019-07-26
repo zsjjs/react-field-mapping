@@ -37,7 +37,9 @@ class FieldMapping extends Component {
   }
   componentDidMount() {
     const relation = calCoord(_.assign([], this.props.relation), this);
-    this.changeRelation(relation);
+    if(relation.length > 0) {
+      this.changeRelation(relation);
+    }
   }
   changeRelation(relation) {
     this.setState({
@@ -154,5 +156,8 @@ FieldMapping.propTypes = {
   onDrawStart: PropTypes.func,// function(params=source, relation)
   onDrawing: PropTypes.func,// function(params=source, relation)
   onDrawEnd: PropTypes.func// function(params=source, relation)
+};
+FieldMapping.defaultProps = {
+  relation: []
 };
 export default FieldMapping;
