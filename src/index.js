@@ -1,4 +1,4 @@
-import FieldMapping from './fieldMapping.jsx';
+import FieldMapping from './FieldMapping.jsx';
 
 export {FieldMapping};
 export default FieldMapping;

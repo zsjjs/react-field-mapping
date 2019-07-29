@@ -2,18 +2,25 @@
  * @Author: yanjun.zsj
  * @LastEditors: yanjun.zsj
  * @Date: 2019-03-11 16:43:26
- * @LastEditTime: 2019-07-29 13:47:06
+ * @LastEditTime: 2019-07-29 17:05:54
  */
 /* global React, ReactDOM  */
-const sourceData = new Array(7).fill().map((item, idx) => ({
-  name: `field${idx + 1}`,
-  type: 'string'
-}));
-const targetData = new Array(11).fill().map((item, idx) => ({
-  name: `field${idx + 4}`,
-  type: 'string'
-}));
-
+const sourceCols = [
+  { title: '源表字段', key: 'name', width: '80px' },
+  { title: '类型', key: 'type', width: '100px' },
+  { title: '描述', key: 'desc', width: '150px' },
+  { title: '操作', key: 'operate', width: '80px', align: 'center', render: (value, record) => {
+    return <a href="javascript:void(0);" onClick={
+      () => {
+        alert(JSON.stringify(record));
+      }
+    }>查看详情</a>;
+  }}
+];
+const targetCols = [
+  { title: '目标表字段', key: 'name', width: '50%' },
+  { title: '类型', key: 'type', width: '50%' }
+];
 class App extends React.PureComponent {
   mapping = React.createRef();
   constructor(props) {
@@ -29,8 +36,18 @@ class App extends React.PureComponent {
           type: "xxxxxx"
         }
       }],
-      sourceData,
-      targetData
+      sourceData: new Array(7).fill().map((item, idx) => ({
+        name: `field${idx + 1}`,
+        type: 'string',
+        key: `field${idx + 1}`,
+        desc: `这是表字段field${idx + 1}`,
+        operate: `测试${idx}`
+      })),
+      targetData: new Array(11).fill().map((item, idx) => ({
+        name: `field${idx + 4}`,
+        type: 'string',
+        key: `field${idx + 4}`
+      }))
     };
   }
   getRelation() {
@@ -79,14 +96,27 @@ class App extends React.PureComponent {
     });
   }
   render() {
+    const { sourceData, targetData } = this.state;
     const option = {
       ref: this.mapping,
-      sourceData: sourceData,
-      targetTitle: {
-        name: "自定义表头1",
-        type: "自定义表头2"
+      source: {
+        data: sourceData,
+        onChange: (data) => { // isSort开启后，必须开启才会生效
+          this.setState({
+            sourceData: data
+          });
+        },
+        columns: sourceCols
       },
-      targetData: targetData,
+      target: {
+        data: targetData,
+        onChange: (data) => {
+          this.setState({
+            targetData: data
+          });
+        },
+        columns: targetCols
+      },
       relation: this.state.relation,
       // onDrawStart: (source, relation) => {
       //   console.log("onDrawStart: ", source, relation);
@@ -94,15 +124,13 @@ class App extends React.PureComponent {
       // onDrawing: (source, relation) => {
       //   console.log("onDrawing: ", source, relation);
       // },
-      // onDrawEnd: (source, relation) => {
+      // onDrawEnd: (source, target, relation) => {
       //   console.log("onDrawEnd: ", source, relation);
       // },
-      onChange: () => {
-        this.setState({
-          sourceData: this.mapping.current.state.sourceData,
-          targetData: this.mapping.current.state.targetData
-        });
-      }
+      // onChange(relation) {
+      //   console.log(relation);
+      // },
+      isSort: true
     };
     return <div>
       <div>

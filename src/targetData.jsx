@@ -3,7 +3,7 @@
 */
 import {Component} from 'react';
 import Sortable from 'sortablejs';
-
+import Columns from './Columns.jsx';
 class TargetData extends Component {
   constructor(props) {
     super(props);
@@ -31,12 +31,10 @@ class TargetData extends Component {
         },
         onEnd: (evt) => {
           sortable.sort(order);//sortablejs排序还原
-          setTimeout(() => {
-            this.props.changeSource(evt.oldIndex, evt.newIndex, "targetData");
-            this.setState({
-              sorting: false
-            });
-          }, 50);
+          this.props.changeData(evt.oldIndex, evt.newIndex);
+          this.setState({
+            sorting: false
+          });
         }
       });
       order = sortable.toArray();
@@ -63,18 +61,18 @@ class TargetData extends Component {
   }
   render() {
     const {
+      columns,
       data,
       iconStatus,
-      relation,
-      targetTitle,
-      overActive
+      overActive,
+      relation
     } = this.props;
     const { sorting } = this.state;
     const columnOpt = (item, index) => {
       return {
         "data-id": index,
         key: `target_${index}`,
-        "data-key": item.name,
+        "data-key": item.key,
         className: this.isActive(item.name),
         onMouseEnter: () => {
           !sorting && this.setState({
@@ -96,18 +94,39 @@ class TargetData extends Component {
     return <div className="target-data" ref={(me) => {this.boxEle = me;}} >
       <ul className="column-title">
         <li>
-          <span className="column-item">{targetTitle.name}</span>
-          <span className="column-item">{targetTitle.type}</span>
+        {columns.map((column, idx) => {
+            return (
+              <span
+                key={idx}
+                className="column-item"
+                title={column.title}
+                style={{
+                  width: column.width,
+                  textAlign: column.align
+                }}
+              >
+                {column.title}
+              </span>
+            );
+          })}
         </li>
       </ul>
       <ul className="column-content">
-        {renderContent.map((item, index) =>
-          <li {...columnOpt(item, index)}>
-            <span className="column-item">{item.name}</span>
-            <span className="column-item">{item.type}</span>
-            <div style={{visibility: item.iconShow}} className={`column-icon target-column-icon ${sorting ? "sorting" : ""}`}></div>
-          </li>
-        )}
+        {
+          renderContent.map((item, index) => {
+            return (
+              <Columns
+                columns={columns}
+                key={`target${index}`}
+                columnOpt={columnOpt}
+                sorting={sorting}
+                item={item}
+                index={index}
+                type="target"
+              />
+            );
+          })
+        }
       </ul>
     </div>;
   }

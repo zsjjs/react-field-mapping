@@ -39,6 +39,14 @@ export const getOffset = (ele) => {
 //根据入参relation生成含线条坐标位置的relation
 export const calCoord = (data = [], FieldMapping) => {
   const baseXY = getOffset(FieldMapping.sourceCom.boxEle.offsetParent);
+  const {
+    source: {
+      data: sourceData
+    },
+    target: {
+      data: targetData
+    }
+  } = FieldMapping.props;
   return data.map(item => {
     let sourceNum = 0;
     let targetNum = 0;
@@ -46,10 +54,10 @@ export const calCoord = (data = [], FieldMapping) => {
     const targetEle = FieldMapping.targetCom.boxEle.querySelector('.column-content');
     const sourceName = item.source.name;
     const targetName = item.target.name;
-    FieldMapping.state.sourceData.map((n,i) => {
+    sourceData.map((n,i) => {
       if (n.name === sourceName) sourceNum = i;
     });
-    FieldMapping.state.targetData.map((n,i) => {
+    targetData.map((n,i) => {
       if (n.name === targetName) targetNum = i;
     });
     const sourcePoint = sourceEle.getElementsByTagName('li')[sourceNum].querySelector('.column-icon');

@@ -3,9 +3,9 @@
 */
 import './fieldMapping.less';
 import {Component} from 'react';
-import SourceData from './sourceData.jsx';
-import TargetData from './targetData.jsx';
-import DrawLines from './drawLines.jsx';
+import SourceData from './SourceData.jsx';
+import TargetData from './TargetData.jsx';
+import DrawLines from './DrawLines.jsx';
 import PropTypes from 'prop-types';
 import { calCoord } from './util.js';
 import _ from 'lodash';
@@ -13,19 +13,8 @@ import _ from 'lodash';
 class FieldMapping extends Component {
   constructor(props) {
     super(props);
-    const sourceData = _.uniqWith(props.sourceData, (n1, n2) => {
-      return n1.name === n2.name;
-    }).map(item => {
-      item.edit = false;
-      return item;
-    });
-    const targetData = _.uniqWith(props.targetData, (n1, n2) => {
-      return n1.name === n2.name;
-    });
     this.state = {
       relation: [],
-      sourceData,
-      targetData,
       currentRelation: {}
     };
   }
@@ -38,14 +27,19 @@ class FieldMapping extends Component {
   componentDidMount() {
     const relation = calCoord(_.assign([], this.props.relation), this);
     if(relation.length > 0) {
-      this.changeRelation(relation);
+      this.changeRelation(relation, false);
     }
   }
-  changeRelation(relation) {
+  uniqWith(data) {
+    return _.uniqWith(data, (n1, n2) => {
+      return n1.key === n2.key;
+    }).filter(item => !!item.key);
+  }
+  changeRelation(relation, isUpdate = true) {
     this.setState({
       relation
     }, () => {
-      this.props.onChange && this.props.onChange(relation);
+      isUpdate && this.props.onChange && this.props.onChange(relation);
     });
   }
   changeIconStatus(iconStatus) {
@@ -70,32 +64,55 @@ class FieldMapping extends Component {
       currentRelation
     });
   }
-  changeSource(oldIndex, newIndex, type) {
-    const data = {};
-    data[type] = _.assign([], this.state[type]);
-    const item = data[type].slice(oldIndex, oldIndex + 1);
-    data[type].splice(oldIndex, 1);
-    const dataS = data[type].slice(0, newIndex);
-    const dataE = data[type].slice(newIndex, data[type].length);
-    data[type] =  dataS.concat(item).concat(dataE);
-    this.setState(data, () => {
-      const relation = calCoord(_.assign([], this.state.relation), this);
-      this.changeRelation(relation);
-    });
+  changeSource(oldIndex, newIndex) {
+    const {
+      source: {
+        data: sourceData,
+        onChange
+      }
+    } = this.props;
+    let data = _.assign([], sourceData);
+    const item = data.slice(oldIndex, oldIndex + 1);
+    data.splice(oldIndex, 1);
+    const dataS = data.slice(0, newIndex);
+    const dataE = data.slice(newIndex, data.length);
+    data =  dataS.concat(item).concat(dataE);
+    onChange(data);
+    const relation = calCoord(_.assign([], this.props.relation), this);
+    this.changeRelation(relation, false);
+  }
+  changeTarget(oldIndex, newIndex) {
+    const {
+      target: {
+        data: targetData,
+        onChange
+      }
+    } = this.props;
+    let data = _.assign([], targetData);
+    const item = data.slice(oldIndex, oldIndex + 1);
+    data.splice(oldIndex, 1);
+    const dataS = data.slice(0, newIndex);
+    const dataE = data.slice(newIndex, data.length);
+    data =  dataS.concat(item).concat(dataE);
+    onChange(data);
+    const relation = calCoord(_.assign([], this.props.relation), this);
+    this.changeRelation(relation, false);
   }
   render() {
-    const { relation, iconStatus, sourceData, targetData, currentRelation } = this.state;
+    const { relation, iconStatus, currentRelation } = this.state;
+    const {
+      source: {
+        data: sourceData,
+        columns: sourceCols
+      },
+      target: {
+        data: targetData,
+        columns: targetCols
+      }
+    } = this.props;
     const {
       className = "",
       style = {},
-      sourceTitle = {
-        name: "源表字段",
-        type: "类型"
-      },
-      targetTitle = {
-        name: "目标表字段",
-        type: "类型"
-      },
       isSort = false,
       onDrawStart,
       onDrawing,
@@ -106,22 +123,22 @@ class FieldMapping extends Component {
       ref: (me) => {this.sourceCom = me;},
       iconStatus,
       relation,
-      sourceTitle,
+      columns: sourceCols,
       data: sourceData,
       currentRelation,
       isSort,
-      changeSource: this.changeSource.bind(this),
+      changeData: this.changeSource.bind(this),
       overActive: this.overActive.bind(this)
     };
     const targetOpt = {
       ref: (me) => {this.targetCom = me;},
       iconStatus,
       relation,
-      targetTitle,
+      columns: targetCols,
       data: targetData,
       currentRelation,
       isSort,
-      changeSource: this.changeSource.bind(this),
+      changeData: this.changeTarget.bind(this),
       overActive: this.overActive.bind(this)
     };
     const drawLinesOpt = {
@@ -146,10 +163,36 @@ class FieldMapping extends Component {
 FieldMapping.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
-  sourceTitle: PropTypes.object, // 源表表头内容, default {name:"源头表字段",type:"类型"}
-  sourceData: PropTypes.array,// default [{name,type}] required param name
-  targetTitle: PropTypes.object, // 目标表表头内容, default {name:"目标表字段",type:"类型"}
-  targetData: PropTypes.array,// default [{name,type}] required param name
+  source: PropTypes.shape({
+    data: PropTypes.array, // required param key
+    onChange: PropTypes.func, // 源表data改变后触发，目前只有排序会触发。isSort开启后，必须在外层同步。
+    columns: PropTypes.arrayOf(PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      key: PropTypes.string.isRequired,
+      width: PropTypes.string.isRequired,
+      align: PropTypes.string,
+      render: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+        PropTypes.element
+      ])
+    }))
+  }),
+  target: PropTypes.shape({
+    data: PropTypes.array, // required param key
+    onChange: PropTypes.func, // 目标表data改变后触发，目前只有排序会触发。
+    columns: PropTypes.arrayOf(PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      key: PropTypes.string.isRequired,
+      width: PropTypes.string.isRequired,
+      align: PropTypes.string,
+      render: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+        PropTypes.element
+      ])
+    }))
+  }),
   relation: PropTypes.array,// [{source:{name, type}, target:{name, type}}], "param {source:{name},target:{name}} is required"
   isSort: PropTypes.bool,// 是否开启拖拽排序，default true
   onChange: PropTypes.func, // function(param= relation)
@@ -158,6 +201,16 @@ FieldMapping.propTypes = {
   onDrawEnd: PropTypes.func// function(params=source, relation)
 };
 FieldMapping.defaultProps = {
-  relation: []
+  relation: [],
+  source: {
+    data: [],
+    onChange: () => {},
+    columns: []
+  },
+  target: {
+    data: [],
+    onChange: () => {},
+    columns: []
+  }
 };
 export default FieldMapping;

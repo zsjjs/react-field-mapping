@@ -23,7 +23,7 @@ body {
       box-sizing: border-box;
     }
     .source-data, .target-data {
-      width: 268px;
+      min-width: 208px;
       position: relative;
       z-index: 3;
       & > ul {
@@ -32,6 +32,8 @@ body {
         padding: 0;
         li {
           width: 100%;
+          display: flex;
+          padding-right: 8px;
           list-style: none;
           height: 36px;
           line-height: 36px;
@@ -46,7 +48,7 @@ body {
           }
           .column-item {
             padding-left: 20px;
-            width: 50%;
+            width: 100px;
             height: 100%;
             float: left;
             .text-ellipsis()
