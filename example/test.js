@@ -2,8 +2,9 @@
  * @Author: yanjun.zsj
  * @LastEditors: yanjun.zsj
  * @Date: 2019-03-11 16:43:26
- * @LastEditTime: 2019-05-09 15:02:33
+ * @LastEditTime: 2019-07-29 13:47:06
  */
+/* global React, ReactDOM  */
 const sourceData = new Array(7).fill().map((item, idx) => ({
   name: `field${idx + 1}`,
   type: 'string'
@@ -118,7 +119,7 @@ class App extends React.PureComponent {
       </div>
     </div>;
   }
-};
+}
 
 ReactDOM.render(
   <App />,

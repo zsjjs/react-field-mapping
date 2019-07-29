@@ -44,7 +44,7 @@ class DrawLines extends Component {
         let scrollEle = box;
         document.body.classList.add("user-select-none");
         const sourceData = _.find(me.props.sourceData, (o) => {
-          return o.name === this.domOperate(eventDom).fieldName;
+          return o.name === this.domOperate(eventDom).key;
         });
         me.props.onDrawStart && me.props.onDrawStart(sourceData, me.props.relation);
         me.props.changeIconStatus(sourceData);
@@ -80,14 +80,14 @@ class DrawLines extends Component {
       if (className && typeof className === "string" && className.indexOf("target-column-icon") > -1) {
         const relation = _.assign([], me.props.relation);
         if(_.find(relation, (o) => {
-          return o.target.name === me.domOperate(eventDom).fieldName;
+          return o.target.name === me.domOperate(eventDom).key;
         })) {
           me.props.changeIconStatus();
           me.setState({...defaultState});
           return;
         }
         const targetData = _.find(me.props.targetData, (o) => {
-          return o.name === me.domOperate(eventDom).fieldName;
+          return o.name === me.domOperate(eventDom).key;
         });
         relation.push({
           source: {
@@ -114,7 +114,7 @@ class DrawLines extends Component {
     return {
       left: getOffset(eventDom).left - this.state.baseXY.left + 6,
       top: getOffset(eventDom).top - this.state.baseXY.top + 6,
-      fieldName: eventDom.offsetParent.getAttribute('data-key')
+      key: eventDom.offsetParent.getAttribute('data-key')
     };
   }
   removeRelation(removeNode) {
