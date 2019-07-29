@@ -55,6 +55,27 @@
     <td align="center">(sourceData) => {}</td>
   </tr>
   <tr>
+    <td rowspan="3">target</td>
+    <td>data</td>
+    <td align="center">目标表数据（受控）</td>
+    <td align="center">array</td>
+    <td align="center">[]</td>
+  </tr>
+  <tr>
+    <td>columns</td>
+    <td>表格列的配置描述，具体项见下表</td>
+    <td align="center">ColumnProps[]</td>
+    <td align="center">[]</td>
+  </tr>
+  <tr>
+    <td>onChange</td>
+    <td>
+      表数据change监听，目前只有sort会触发，且开启sort时必须同步源表数据后，sort才会生效
+    </td>
+    <td align="center">function</td>
+    <td align="center">(sourceData) => {}</td>
+  </tr>
+  <tr>
     <td colspan="2">isSort</td>
     <td>是否开启字段排序</td>
     <td align="center">boolean</td>
