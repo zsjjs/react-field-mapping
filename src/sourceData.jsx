@@ -3,7 +3,8 @@
 */
 import {Component} from 'react';
 import Sortable from 'sortablejs';
-import SourceField from './sourceField.jsx';
+import Columns from './Columns.jsx';
+
 class SourceData extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +24,7 @@ class SourceData extends Component {
     const ele = this.boxEle.querySelector('.column-content');
     let order = [];
     if(isSort) {
+      console.log(211111, ele);
       const sortable =  new Sortable(ele, {
         onStart: () => {
           this.setState({
@@ -31,12 +33,10 @@ class SourceData extends Component {
         },
         onEnd: (evt) => {
           sortable.sort(order);//sortablejs排序还原
-          setTimeout(() => {
-            this.props.changeSource(evt.oldIndex, evt.newIndex, "sourceData");
-            this.setState({
-              sorting: false
-            });
-          }, 50);
+          this.props.changeData(evt.oldIndex, evt.newIndex);
+          this.setState({
+            sorting: false
+          });
         }
       });
       order = sortable.toArray();
@@ -65,17 +65,17 @@ class SourceData extends Component {
   }
   render() {
     const {
+      columns,
       data,
       iconStatus,
-      relation,
-      sourceTitle,
-      overActive
+      overActive,
+      relation
     } = this.props;
     const { sorting } = this.state;
     const columnOpt = (item, index) => {
       return {
         "data-id": index,
-        "data-key": item.name,
+        "data-key": item.key,
         className: this.isActive(item.name),
         onMouseEnter: () => {
           !sorting && this.setState({
@@ -97,18 +97,39 @@ class SourceData extends Component {
     return <div className="source-data" ref={(me) => {this.boxEle = me;}} >
       <ul className="column-title">
         <li>
-          <span className="column-item">{sourceTitle.name}</span>
-          <span className="column-item">{sourceTitle.type}</span>
+          {columns.map((column, idx) => {
+            return (
+              <span
+                key={idx}
+                className="column-item"
+                title={column.title}
+                style={{
+                  width: column.width,
+                  textAlign: column.align
+                }}
+              >
+                {column.title}
+              </span>
+            );
+          })}
         </li>
       </ul>
       <ul className="column-content">
-        {renderContent.map((item, index) => {
-          return <SourceField
-            key={`source_${index}`}
-            columnOpt={columnOpt}
-            sorting={sorting}
-            item={item} index={index} />;}
-        )}
+        {
+          renderContent.map((item, index) => {
+            return (
+              <Columns
+                columns={columns}
+                key={`source_${index}`}
+                columnOpt={columnOpt}
+                sorting={sorting}
+                item={item}
+                index={index}
+                type="source"
+              />
+            );
+          })
+        }
       </ul>
     </div>;
   }
