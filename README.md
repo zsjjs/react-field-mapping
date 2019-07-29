@@ -92,9 +92,9 @@
   </tr>
 </table>
 
-####Column
+#### Column
 
-#####列描述数据对象，是 columns 中的一项，Column 使用相同的 API。
+##### 列描述数据对象，是 columns 中的一项，Column 使用相同的 API。
 
 <table border="1">
   <tr>
