@@ -52,13 +52,13 @@ export const calCoord = (data = [], FieldMapping) => {
     let targetNum = 0;
     const sourceEle = FieldMapping.sourceCom.boxEle.querySelector('.column-content');
     const targetEle = FieldMapping.targetCom.boxEle.querySelector('.column-content');
-    const sourceName = item.source.name;
-    const targetName = item.target.name;
+    const sourceName = item.source.key;
+    const targetName = item.target.key;
     sourceData.map((n,i) => {
-      if (n.name === sourceName) sourceNum = i;
+      if (n.key === sourceName) sourceNum = i;
     });
     targetData.map((n,i) => {
-      if (n.name === targetName) targetNum = i;
+      if (n.key === targetName) targetNum = i;
     });
     const sourcePoint = sourceEle.getElementsByTagName('li')[sourceNum].querySelector('.column-icon');
     const targetPoint = targetEle.getElementsByTagName('li')[targetNum].querySelector('.column-icon');
