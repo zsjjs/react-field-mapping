@@ -24,7 +24,6 @@ class SourceData extends Component {
     const ele = this.boxEle.querySelector('.column-content');
     let order = [];
     if(isSort) {
-      console.log(211111, ele);
       const sortable =  new Sortable(ele, {
         onStart: () => {
           this.setState({
