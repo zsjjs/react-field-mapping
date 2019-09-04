@@ -2,7 +2,7 @@
  * @Author: yanjun.zsj
  * @LastEditors: yanjun.zsj
  * @Date: 2019-03-11 16:43:26
- * @LastEditTime: 2019-07-30 14:26:42
+ * @LastEditTime: 2019-09-04 11:57:46
  */
 /* global React, ReactDOM  */
 const sourceCols = [
@@ -10,7 +10,7 @@ const sourceCols = [
   { title: '类型', key: 'type', width: '100px' },
   { title: '描述', key: 'desc', width: '150px' },
   { title: '操作', key: 'operate', width: '80px', align: 'center', render: (value, record) => {
-    return <a href="javascript:void(0);" onClick={
+    return <a href="#" onClick={
       () => {
         alert(JSON.stringify(record));
       }
