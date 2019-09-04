@@ -1,6 +1,6 @@
 {
   "name": "react-field-mapping",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "基于react的表字段映射组件",
   "scripts": {
     "check": "jsinspect ./src",

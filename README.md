@@ -70,7 +70,7 @@
   <tr>
     <td>onChange</td>
     <td>
-      表数据change监听，目前只有sort会触发，且开启sort时必须同步源表数据后，sort才会生效
+      表数据change监听，目前只有sort会触发，且开启sort时必须同步目标表数据后，sort才会生效
     </td>
     <td align="center">function</td>
     <td align="center">(sourceData) => {}</td>
