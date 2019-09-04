@@ -2,7 +2,7 @@
  * @Author: yanjun.zsj
  * @LastEditors: yanjun.zsj
  * @Date: 2019-03-11 16:43:26
- * @LastEditTime: 2019-07-29 17:05:54
+ * @LastEditTime: 2019-07-30 14:26:42
  */
 /* global React, ReactDOM  */
 const sourceCols = [
@@ -29,11 +29,13 @@ class App extends React.PureComponent {
       relation: [{
         source: {
           name: "field1",
-          type: "xxxxxx"
+          type: "xxxxxx",
+          key: "field1"
         },
         target: {
           name: "field5",
-          type: "xxxxxx"
+          type: "xxxxxx",
+          key: "field5"
         }
       }],
       sourceData: new Array(7).fill().map((item, idx) => ({
@@ -51,13 +53,8 @@ class App extends React.PureComponent {
     };
   }
   getRelation() {
-    const relation = this.mapping.current.state.relation;
-    console.log(relation);
-    const res = {};
-    relation.map(item => {
-      res[item.source.name] = item.target.name;
-    });
-    alert(JSON.stringify(res));
+    const relation = this.state.relation;
+    alert(JSON.stringify(relation));
   }
   sameLine() {
     const {sourceData, targetData} = this.state;
@@ -78,7 +75,7 @@ class App extends React.PureComponent {
     const relation = [];
     sourceData.map(item => {
       targetData.map(n => {
-        if(item.name === n.name) {
+        if(item.key === n.key) {
           relation.push({
             source: item,
             target: n
@@ -98,7 +95,6 @@ class App extends React.PureComponent {
   render() {
     const { sourceData, targetData } = this.state;
     const option = {
-      ref: this.mapping,
       source: {
         data: sourceData,
         onChange: (data) => { // isSort开启后，必须开启才会生效
@@ -127,9 +123,11 @@ class App extends React.PureComponent {
       // onDrawEnd: (source, target, relation) => {
       //   console.log("onDrawEnd: ", source, relation);
       // },
-      // onChange(relation) {
-      //   console.log(relation);
-      // },
+      onChange: (relation) => {
+        this.setState({
+          relation
+        });
+      },
       isSort: true
     };
     return <div>

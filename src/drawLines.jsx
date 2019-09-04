@@ -19,7 +19,6 @@ class DrawLines extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      relation:[],
       baseXY:{
         left: 0,
         top: 0
@@ -44,7 +43,7 @@ class DrawLines extends Component {
         let scrollEle = box;
         document.body.classList.add("user-select-none");
         const sourceData = _.find(me.props.sourceData, (o) => {
-          return o.name === this.domOperate(eventDom).key;
+          return o.key === this.domOperate(eventDom).key;
         });
         me.props.onDrawStart && me.props.onDrawStart(sourceData, me.props.relation);
         me.props.changeIconStatus(sourceData);
@@ -80,14 +79,14 @@ class DrawLines extends Component {
       if (className && typeof className === "string" && className.indexOf("target-column-icon") > -1) {
         const relation = _.assign([], me.props.relation);
         if(_.find(relation, (o) => {
-          return o.target.name === me.domOperate(eventDom).key;
+          return o.target.key === me.domOperate(eventDom).key;
         })) {
           me.props.changeIconStatus();
           me.setState({...defaultState});
           return;
         }
         const targetData = _.find(me.props.targetData, (o) => {
-          return o.name === me.domOperate(eventDom).key;
+          return o.key === me.domOperate(eventDom).key;
         });
         relation.push({
           source: {
@@ -151,8 +150,10 @@ class DrawLines extends Component {
           </marker>
         </defs>
         <g>
-          {relation.map(item => <Line
-            key={`${item.source.name}-${item.target.name}`}
+          {relation.filter(item => {
+            return item.source.key && item.target.key;
+          }).map(item => <Line
+            key={`${item.source.key}-${item.target.key}`}
             startX={item.source.x}
             startY={item.source.y}
             endX={item.target.x}

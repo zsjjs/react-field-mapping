@@ -8,7 +8,7 @@ class TargetData extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeName: null,
+      activeKey: null,
       sorting: false
     };
   }
@@ -44,17 +44,17 @@ class TargetData extends Component {
     return data.map(item => {
       let iconShow = iconStatus ? 'inherit' : 'hidden';
       relation.map(n => {
-        if ((n.target && n.target.name) === item.name) iconShow = 'inherit';
+        if ((n.target && n.target.key) === item.key) iconShow = 'inherit';
       });
       item.iconShow = iconShow;
       return item;
     });
   }
-  isActive(name) {
+  isActive(key) {
     const { currentRelation } = this.props;
-    if(this.state.activeName === name) {
+    if(this.state.activeKey === key) {
       return "active";
-    }else if (currentRelation.target && currentRelation.target.name === name) {
+    }else if (currentRelation.target && currentRelation.target.key === key) {
       return "active";
     }
     return "";
@@ -73,17 +73,17 @@ class TargetData extends Component {
         "data-id": index,
         key: `target_${index}`,
         "data-key": item.key,
-        className: this.isActive(item.name),
+        className: this.isActive(item.key),
         onMouseEnter: () => {
           !sorting && this.setState({
-            activeName: item.name
+            activeKey: item.key
           }, () => {
             overActive(item, "target", "enter");
           });
         },
         onMouseLeave: () => {
           !sorting && this.setState({
-            activeName: null
+            activeKey: null
           }, () => {
             overActive(item, "target", "leave");
           });

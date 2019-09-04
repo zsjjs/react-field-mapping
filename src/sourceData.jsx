@@ -9,7 +9,7 @@ class SourceData extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeName: null,
+      activeKey: null,
       sorting: false
     };
   }
@@ -46,18 +46,18 @@ class SourceData extends Component {
     return data.map(item => {
       let iconShow = 'hidden';
       arr.map(n => {
-        if (n.name === item.name || (n.source && n.source.name) === item.name) iconShow = 'inherit';
+        if (n.key === item.key || (n.source && n.source.key) === item.key) iconShow = 'inherit';
       });
       item.iconShow = iconShow;
       return item;
     });
   }
-  isActive(name) {
+  isActive(key) {
     const { currentRelation } = this.props;
     const className = [];
-    if(this.state.activeName === name) {
+    if(this.state.activeKey === key) {
       className.push("active");
-    }else if (currentRelation.source && currentRelation.source.name === name) {
+    }else if (currentRelation.source && currentRelation.source.key === key) {
       className.push("active");
     }
     return className.join(" ");
@@ -75,17 +75,17 @@ class SourceData extends Component {
       return {
         "data-id": index,
         "data-key": item.key,
-        className: this.isActive(item.name),
+        className: this.isActive(item.key),
         onMouseEnter: () => {
           !sorting && this.setState({
-            activeName: item.name
+            activeKey: item.key
           }, () => {
             overActive(item,  "source", "enter");
           });
         },
         onMouseLeave: () => {
           !sorting && this.setState({
-            activeName: null
+            activeKey: null
           }, () => {
             overActive(item, "source", "leave");
           });

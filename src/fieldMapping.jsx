@@ -21,7 +21,7 @@ class FieldMapping extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.relation !== this.props.relation) {
       const relation = calCoord(_.assign([], nextProps.relation), this);
-      this.changeRelation(relation);
+      this.changeRelation(relation, false);
     }
   }
   componentDidMount() {
@@ -51,7 +51,7 @@ class FieldMapping extends Component {
     const relation = _.assign([], this.state.relation);
     let currentRelation = {};
     relation.map(n => {
-      if(n[type].name === item.name) {
+      if(n[type].key === item.key) {
         if(active === "enter") {
           currentRelation = n;
           return;
