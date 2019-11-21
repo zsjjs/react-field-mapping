@@ -2,7 +2,7 @@
  * @Author: yanjun.zsj
  * @LastEditors: yanjun.zsj
  * @Date: 2019-03-11 16:43:26
- * @LastEditTime: 2019-09-04 11:57:46
+ * @LastEditTime: 2019-11-21 17:51:13
  */
 /* global React, ReactDOM  */
 const sourceCols = [
@@ -128,7 +128,8 @@ class App extends React.PureComponent {
           relation
         });
       },
-      isSort: true
+      isSort: true,
+
     };
     return <div>
       <div>

@@ -65,7 +65,8 @@ class TargetData extends Component {
       data,
       iconStatus,
       overActive,
-      relation
+      relation,
+      edit
     } = this.props;
     const { sorting } = this.state;
     const columnOpt = (item, index) => {
@@ -120,6 +121,7 @@ class TargetData extends Component {
                 key={`target${index}`}
                 columnOpt={columnOpt}
                 sorting={sorting}
+                edit={edit}
                 item={item}
                 index={index}
                 type="target"

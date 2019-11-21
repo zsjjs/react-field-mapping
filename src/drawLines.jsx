@@ -111,7 +111,7 @@ class DrawLines extends Component {
   }
   domOperate(eventDom) {
     return {
-      left: getOffset(eventDom).left - this.state.baseXY.left + 6,
+      left: getOffset(eventDom).left - this.state.baseXY.left + 3,
       top: getOffset(eventDom).top - this.state.baseXY.top + 6,
       key: eventDom.offsetParent.getAttribute('data-key')
     };
@@ -133,7 +133,7 @@ class DrawLines extends Component {
   }
   render() {
     const { startX, startY, drawing, endX, endY } = this.state;
-    const { relation, currentRelation } = this.props;
+    const { relation, currentRelation, edit } = this.props;
     return <div className="lines-area" ref={me => {this.drawEle = me;}}>
       <svg width="100%" height="100%" version="1.1"
            xmlns="http://www.w3.org/2000/svg">
@@ -159,6 +159,7 @@ class DrawLines extends Component {
             endX={item.target.x}
             endY={item.target.y}
             data={item}
+            edit={edit}
             toTop={this.topLine.bind(this)}
             currentRelation={currentRelation}
             removeRelation={this.removeRelation.bind(this)}

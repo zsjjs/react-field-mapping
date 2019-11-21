@@ -68,7 +68,8 @@ class SourceData extends Component {
       data,
       iconStatus,
       overActive,
-      relation
+      relation,
+      edit
     } = this.props;
     const { sorting } = this.state;
     const columnOpt = (item, index) => {
@@ -125,6 +126,7 @@ class SourceData extends Component {
                 item={item}
                 index={index}
                 type="source"
+                edit={edit}
               />
             );
           })

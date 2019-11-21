@@ -16,7 +16,7 @@ class Columns extends Component {
     return result;
   }
   render() {
-    const { item, index, columnOpt, sorting, columns, type } = this.props;
+    const { item, index, columnOpt, sorting, columns, type, edit } = this.props;
     return <li {...columnOpt(item, index)} >
       {
         columns.map((column, idx) => {
@@ -38,7 +38,7 @@ class Columns extends Component {
           );
         })
       }
-      <div style={{visibility: item.iconShow}} className={`column-icon ${type}-column-icon ${sorting ? "sorting" : ""}`}></div>
+      <div style={{visibility: edit && item.iconShow}} className={`column-icon ${type}-column-icon ${sorting ? "sorting" : ""} ${edit ? "" : "disabled"}`}></div>
     </li>;
   }
 }
