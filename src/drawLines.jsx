@@ -16,30 +16,30 @@ const defaultState = {
 };
 
 class DrawLines extends Component {
+  baseXY = {
+    left: 0,
+    top: 0
+  }
   constructor(props) {
     super(props);
     this.state = {
-      baseXY:{
-        left: 0,
-        top: 0
-      },
       ...defaultState
     };
   }
   componentDidMount() {
     const me = this;
-    const baseXY = getOffset(this.drawEle);
+    this.baseXY = getOffset(this.drawEle);
     const box = document.querySelector('.react-field-mapping-box');
     let scrollTop = 0;
     let scrollLeft = 0;
-    this.setState({
-      baseXY
-    });
     document.documentElement.onmousedown = (event) => {
       const eventDom = event.target;
       const className = eventDom && eventDom.className;
       if (className && typeof className === "string" && className.indexOf("source-column-icon") > -1) {
         event.preventDefault();
+        if(this.baseXY !== getOffset(this.drawEle)) {
+          this.baseXY = getOffset(this.drawEle);
+        }
         let scrollEle = box;
         document.body.classList.add("user-select-none");
         const sourceData = _.find(me.props.sourceData, (o) => {
@@ -66,8 +66,8 @@ class DrawLines extends Component {
       if (this.state.drawing) {
         me.props.onDrawing && me.props.onDrawing(me.state.sourceData, me.props.relation);
         me.setState({
-          endX: event.pageX - baseXY.left + scrollLeft,
-          endY: event.pageY - baseXY.top + scrollTop
+          endX: event.pageX - this.baseXY.left + scrollLeft,
+          endY: event.pageY - this.baseXY.top + scrollTop
         });
       }
     };
@@ -111,8 +111,8 @@ class DrawLines extends Component {
   }
   domOperate(eventDom) {
     return {
-      left: getOffset(eventDom).left - this.state.baseXY.left + 3,
-      top: getOffset(eventDom).top - this.state.baseXY.top + 6,
+      left: getOffset(eventDom).left - this.baseXY.left + 3,
+      top: getOffset(eventDom).top - this.baseXY.top + 6,
       key: eventDom.offsetParent.getAttribute('data-key')
     };
   }
