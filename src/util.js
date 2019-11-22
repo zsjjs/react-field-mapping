@@ -2,7 +2,7 @@
  * @Author: yanjun.zsj
  * @Date: 2019-07-30 14:05:00
  * @LastEditors: yanjun.zsj
- * @LastEditTime: 2019-09-04 11:55:57
+ * @LastEditTime: 2019-11-22 19:00:58
  */
 /* @author yanjun.zsj
  * @date 2018.11
@@ -72,7 +72,7 @@ export const calCoord = (data = [], FieldMapping) => {
       targetEle.getElementsByTagName('li')[targetNum].querySelector('.column-icon');
     item.source.x = getOffset(sourcePoint).left - baseXY.left + 6;
     item.source.y = getOffset(sourcePoint).top - baseXY.top + 6;
-    item.target.x = getOffset(targetPoint).left - baseXY.left + 6;
+    item.target.x = getOffset(targetPoint).left - baseXY.left + 3;
     item.target.y = getOffset(targetPoint).top - baseXY.top + 6;
     return item;
   });

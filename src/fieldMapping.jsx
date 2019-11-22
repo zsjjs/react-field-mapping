@@ -108,15 +108,14 @@ class FieldMapping extends Component {
       target: {
         data: targetData,
         columns: targetCols
-      }
-    } = this.props;
-    const {
+      },
       className = "",
       style = {},
       isSort = false,
       onDrawStart,
       onDrawing,
-      onDrawEnd
+      onDrawEnd,
+      edit
     } = this.props;
 
     const sourceOpt = {
@@ -127,6 +126,7 @@ class FieldMapping extends Component {
       data: sourceData,
       currentRelation,
       isSort,
+      edit,
       changeData: this.changeSource.bind(this),
       overActive: this.overActive.bind(this)
     };
@@ -138,6 +138,7 @@ class FieldMapping extends Component {
       data: targetData,
       currentRelation,
       isSort,
+      edit,
       changeData: this.changeTarget.bind(this),
       overActive: this.overActive.bind(this)
     };
@@ -148,6 +149,7 @@ class FieldMapping extends Component {
       onDrawing,
       onDrawEnd,
       relation,
+      edit,
       currentRelation,
       onChange: this.changeRelation.bind(this),
       changeIconStatus: this.changeIconStatus.bind(this)
@@ -198,7 +200,8 @@ FieldMapping.propTypes = {
   onChange: PropTypes.func, // function(param= relation)
   onDrawStart: PropTypes.func,// function(params=source, relation)
   onDrawing: PropTypes.func,// function(params=source, relation)
-  onDrawEnd: PropTypes.func// function(params=source, relation)
+  onDrawEnd: PropTypes.func,// function(params=source, relation)
+  edit: PropTypes.bool // 是否能操作线条编辑 default true
 };
 FieldMapping.defaultProps = {
   relation: [],
@@ -211,6 +214,7 @@ FieldMapping.defaultProps = {
     data: [],
     onChange: () => {},
     columns: []
-  }
+  },
+  edit: true
 };
 export default FieldMapping;

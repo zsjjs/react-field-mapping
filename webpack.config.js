@@ -6,7 +6,7 @@ const path = require("path");
 const webpack = require("webpack");
 const env = process.env.NODE_ENV;
 const entry = {
-  fieldmapping: './src/index.js'
+  fieldmapping: ['@babel/polyfill', './src/index.js']
 };
 const plugins = [
   new webpack.HotModuleReplacementPlugin(),
@@ -40,7 +40,8 @@ module.exports = {
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')
-    }
+    },
+    extensions: ['.jsx', '.less', '.css', '.wasm', '.mjs', '.js', '.json']
   },
   module: {
     rules: [{
@@ -49,7 +50,7 @@ module.exports = {
       include: [
         path.resolve(__dirname, 'src')
       ],
-      loader: 'babel-loader'
+      loader: ['babel-loader', 'eslint-loader']
     }, {
       test: /\.(png|jpg|gif)$/,
       use: [
@@ -64,12 +65,7 @@ module.exports = {
       test: /\.(less|css)$/,
       exclude: /node_modules/,
       use: ['style-loader', 'css-loader', 'less-loader']
-    }, {
-      test: /\.(js|jsx)$/,
-      exclude: /node_modules/,
-      loader: 'eslint-loader'
-    }
-    ]
+    }]
   },
   plugins: plugins
 };

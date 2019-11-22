@@ -97,6 +97,9 @@ body {
               &.sorting {
                 visibility: hidden!important;
               }
+              &.disabled {
+                visibility: hidden!important;
+              }
             }
           }
         }
@@ -137,7 +140,8 @@ body {
         .icon-remove {
           opacity: 0;
         }
-        &.path-end:hover, &.path-end.active {
+        &.path-end:hover,
+        &.path-end.active {
           fill: #00A2CA;
           cursor: pointer;
           .line {
@@ -146,6 +150,16 @@ body {
           }
           .icon-remove {
             opacity: 1;
+          }
+        }
+        &.path-end.disabled {
+          cursor: initial;
+          .line {
+            stroke: #33B5D4;
+            stroke-width: 2px;
+          }
+          .icon-remove {
+            opacity: 0;
           }
         }
       }

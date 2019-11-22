@@ -17,11 +17,14 @@ class Line extends Component {
       endX = 0,
       endY = 0,
       currentRelation,
-      data
+      data,
+      edit
     } = this.props;
-    return <g className={`path-end ${(currentRelation === data) ? "active" : ""}`} onMouseOver={() => {
-      this.props.toTop(this.props.data);
-    }} onClick={this.removeHandle.bind(this)}>
+    return <g className={`path-end ${(currentRelation === data) ? "active" : ""} ${edit ? '' : 'disabled'}`} onMouseOver={() => {
+      edit && this.props.toTop(this.props.data);
+    }} onClick={() => {
+      edit && this.removeHandle();
+    }}>
       <path
         className="line"
         d={`M${startX}, ${startY} L${endX}, ${endY}`}

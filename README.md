@@ -82,6 +82,12 @@
     <td align="center">true</td>
   </tr>
   <tr>
+    <td colspan="2">edit</td>
+    <td>线条是否可以拖动/删除（如果需要预览态，isSort不能为true）</td>
+    <td align="center">boolean</td>
+    <td align="center">true</td>
+  </tr>
+  <tr>
     <td colspan="2">relation</td>
     <td>默认已映射数据</td>
     <td align="center">array[{source:{name,type}, target:{name,type}}]</td>
