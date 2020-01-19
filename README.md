@@ -34,7 +34,7 @@
     <td align="center">{}</td>
   </tr>
   <tr>
-    <td rowspan="3">source</td>
+    <td rowspan="4">source</td>
     <td>data</td>
     <td align="center">源表数据（受控）</td>
     <td align="center">array</td>
@@ -55,7 +55,13 @@
     <td align="center">(sourceData) => {}</td>
   </tr>
   <tr>
-    <td rowspan="3">target</td>
+    <td>mutiple</td>
+    <td>是否允许一个source连接多个target</td>
+    <td align="center">boolean</td>
+    <td align="center">false</td>
+  </tr>
+  <tr>
+    <td rowspan="4">target</td>
     <td>data</td>
     <td align="center">目标表数据（受控）</td>
     <td align="center">array</td>
@@ -74,6 +80,12 @@
     </td>
     <td align="center">function</td>
     <td align="center">(sourceData) => {}</td>
+  </tr>
+  <tr>
+    <td>mutiple</td>
+    <td>是否允许多个source连接一个target</td>
+    <td align="center">boolean</td>
+    <td align="center">false</td>
   </tr>
   <tr>
     <td colspan="2">isSort</td>
@@ -115,6 +127,12 @@
     <td colspan="2">onDrawEnd</td>
     <td>关联结束监听</td>
     <td align="center">function(source, relation)</td>
+    <td align="center">-</td>
+  </tr>
+  <tr>
+    <td colspan="2">closeIcon</td>
+    <td>关闭线条的icon url</td>
+    <td align="center">string</td>
     <td align="center">-</td>
   </tr>
 </table>
