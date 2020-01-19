@@ -2,6 +2,8 @@
  * @date 2018.11
 */
 import {Component} from 'react';
+import PropTypes from 'prop-types';
+
 const iconSize = [12, 12];
 class Line extends Component {
   constructor(props) {
@@ -40,5 +42,15 @@ class Line extends Component {
     </g>;
   }
 }
-
+Line.propTypes = {
+  startX: PropTypes.number.isRequired,
+  startY: PropTypes.number.isRequired,
+  endX: PropTypes.number.isRequired,
+  endY: PropTypes.number.isRequired,
+  data: PropTypes.object.isRequired,
+  edit: PropTypes.bool.isRequired,
+  toTop: PropTypes.func.isRequired,
+  currentRelation: PropTypes.object.isRequired,
+  removeRelation: PropTypes.func.isRequired
+};
 export default Line;

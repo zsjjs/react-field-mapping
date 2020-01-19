@@ -1,8 +1,8 @@
 /*
  * @Author: yanjun.zsj
- * @LastEditors: yanjun.zsj
+ * @LastEditors  : yanjun.zsj
  * @Date: 2019-03-11 16:43:26
- * @LastEditTime: 2019-11-21 17:51:13
+ * @LastEditTime : 2020-01-19 15:21:57
  */
 /* global React, ReactDOM  */
 const sourceCols = [
@@ -102,7 +102,8 @@ class App extends React.PureComponent {
             sourceData: data
           });
         },
-        columns: sourceCols
+        columns: sourceCols,
+        mutiple: true
       },
       target: {
         data: targetData,
@@ -111,7 +112,8 @@ class App extends React.PureComponent {
             targetData: data
           });
         },
-        columns: targetCols
+        columns: targetCols,
+        mutiple: true
       },
       relation: this.state.relation,
       // onDrawStart: (source, relation) => {
@@ -128,7 +130,7 @@ class App extends React.PureComponent {
           relation
         });
       },
-      isSort: true,
+      isSort: true
 
     };
     return <div>

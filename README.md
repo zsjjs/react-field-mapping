@@ -5,7 +5,7 @@
 ![gzip size](http://img.badgesize.io/https://npmcdn.com/react-field-mapping/dist/fieldmapping.js?compression=gzip)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.githubusercontent.com/zsjjs/react-field-mapping/master/LICENSE)
 
-#### 基于react的表字段映射组件
+#### 关系映射组件
 
 ### View the <a href="https://codepen.io/godIsMe/pen/xvgYdx">Demo</a> and its <a href="https://github.com/zsjjs/react-field-mapping/blob/master/example/test.js">source</a> for more.
 
@@ -79,7 +79,7 @@
     <td colspan="2">isSort</td>
     <td>是否开启字段排序</td>
     <td align="center">boolean</td>
-    <td align="center">true</td>
+    <td align="center">false</td>
   </tr>
   <tr>
     <td colspan="2">edit</td>
