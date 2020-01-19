@@ -117,7 +117,8 @@ class FieldMapping extends Component {
       onDrawStart,
       onDrawing,
       onDrawEnd,
-      edit
+      edit,
+      closeIcon
     } = this.props;
     const sourceOpt = {
       ref: (me) => {this.sourceCom = me;},
@@ -153,6 +154,7 @@ class FieldMapping extends Component {
       onDrawEnd,
       relation,
       edit,
+      closeIcon,
       currentRelation,
       onChange: this.changeRelation.bind(this),
       changeIconStatus: this.changeIconStatus.bind(this)
@@ -206,7 +208,8 @@ FieldMapping.propTypes = {
   onDrawStart: PropTypes.func,// function(params=source, relation)
   onDrawing: PropTypes.func,// function(params=source, relation)
   onDrawEnd: PropTypes.func,// function(params=source, relation)
-  edit: PropTypes.bool // 是否能操作线条编辑 default true
+  edit: PropTypes.bool, // 是否能操作线条编辑 default true
+  closeIcon: PropTypes.string // 关闭线条的icon url，不传用默认的关闭按钮
 };
 FieldMapping.defaultProps = {
   relation: [],

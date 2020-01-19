@@ -146,7 +146,7 @@ class DrawLines extends Component {
   }
   render() {
     const { startX, startY, drawing, endX, endY } = this.state;
-    const { relation, currentRelation, edit } = this.props;
+    const { relation, currentRelation, edit, closeIcon } = this.props;
     return <div className="lines-area" ref={me => {this.drawEle = me;}}>
       <svg width="100%" height="100%" version="1.1"
            xmlns="http://www.w3.org/2000/svg">
@@ -173,6 +173,7 @@ class DrawLines extends Component {
             endY={item.target.y}
             data={item}
             edit={edit}
+            closeIcon={closeIcon}
             toTop={this.topLine.bind(this)}
             currentRelation={currentRelation}
             removeRelation={this.removeRelation.bind(this)}
@@ -204,7 +205,8 @@ DrawLines.propTypes = {
   edit: PropTypes.bool.isRequired,
   currentRelation: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  changeIconStatus: PropTypes.func.isRequired
+  changeIconStatus: PropTypes.func.isRequired,
+  closeIcon: PropTypes.string
 };
 DrawLines.defaultProps = {
   onDrawStart: () => {},

@@ -20,7 +20,8 @@ class Line extends Component {
       endY = 0,
       currentRelation,
       data,
-      edit
+      edit,
+      closeIcon
     } = this.props;
     return <g className={`path-end ${(currentRelation === data) ? "active" : ""} ${edit ? '' : 'disabled'}`} onMouseOver={() => {
       edit && this.props.toTop(this.props.data);
@@ -38,7 +39,7 @@ class Line extends Component {
         y={(endY + startY - iconSize[1])/2}
         width={iconSize[0]}
         height={iconSize[1]}
-        xlinkHref="//img.alicdn.com/tfs/TB1laCNsXYqK1RjSZLeXXbXppXa-200-200.png" />
+        xlinkHref={closeIcon || "//img.alicdn.com/tfs/TB1laCNsXYqK1RjSZLeXXbXppXa-200-200.png"} />
     </g>;
   }
 }
@@ -51,6 +52,7 @@ Line.propTypes = {
   edit: PropTypes.bool.isRequired,
   toTop: PropTypes.func.isRequired,
   currentRelation: PropTypes.object.isRequired,
-  removeRelation: PropTypes.func.isRequired
+  removeRelation: PropTypes.func.isRequired,
+  closeIcon: PropTypes.string
 };
 export default Line;
