@@ -2,6 +2,7 @@
  * @date 2018.11
 */
 import {Component} from 'react';
+import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
 import Columns from './Columns.jsx';
 
@@ -135,5 +136,15 @@ class SourceData extends Component {
     </div>;
   }
 }
-
+SourceData.propTypes = {
+  iconStatus: PropTypes.object,
+  relation: PropTypes.array.isRequired,
+  columns: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
+  currentRelation: PropTypes.object.isRequired,
+  isSort: PropTypes.bool.isRequired,
+  edit: PropTypes.bool.isRequired,
+  changeData: PropTypes.func.isRequired,
+  overActive: PropTypes.func.isRequired
+};
 export default SourceData;

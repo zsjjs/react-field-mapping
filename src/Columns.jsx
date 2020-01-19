@@ -1,4 +1,5 @@
 import {Component} from 'react';
+import PropTypes from 'prop-types';
 import { isElement } from 'react-dom/test-utils';
 
 class Columns extends Component {
@@ -43,4 +44,13 @@ class Columns extends Component {
   }
 }
 
+Columns.propTypes = {
+  columns: PropTypes.array.isRequired,
+  columnOpt: PropTypes.func.isRequired,
+  sorting: PropTypes.bool.isRequired,
+  item: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+  edit: PropTypes.bool.isRequired
+};
 export default Columns;

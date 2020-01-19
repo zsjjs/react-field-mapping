@@ -2,6 +2,7 @@
  * @date 2018.11
 */
 import {Component} from 'react';
+import PropTypes from 'prop-types';
 import { getOffset } from './util.js';
 import Line from './line.jsx';
 import _ from 'lodash';
@@ -32,11 +33,19 @@ class DrawLines extends Component {
     const box = document.querySelector('.react-field-mapping-box');
     let scrollTop = 0;
     let scrollLeft = 0;
+    let sourceDom = null;
     document.documentElement.onmousedown = (event) => {
       const eventDom = event.target;
+      sourceDom = eventDom;
       const className = eventDom && eventDom.className;
       if (className && typeof className === "string" && className.indexOf("source-column-icon") > -1) {
         event.preventDefault();
+        const relation = _.assign([], me.props.relation);
+        if(!me.props.sourceMutiple && _.find(relation, (o) => {
+          return o.source.key === me.domOperate(eventDom).key;
+        })) {
+          return;
+        }
         if(this.baseXY !== getOffset(this.drawEle)) {
           this.baseXY = getOffset(this.drawEle);
         }
@@ -45,7 +54,7 @@ class DrawLines extends Component {
         const sourceData = _.find(me.props.sourceData, (o) => {
           return o.key === this.domOperate(eventDom).key;
         });
-        me.props.onDrawStart && me.props.onDrawStart(sourceData, me.props.relation);
+        me.props.onDrawStart(sourceData, me.props.relation);
         me.props.changeIconStatus(sourceData);
         me.setState({
           startX: this.domOperate(eventDom).left,
@@ -64,7 +73,7 @@ class DrawLines extends Component {
     };
     document.documentElement.onmousemove = (event) => {
       if (this.state.drawing) {
-        me.props.onDrawing && me.props.onDrawing(me.state.sourceData, me.props.relation);
+        me.props.onDrawing(me.state.sourceData, me.props.relation);
         me.setState({
           endX: event.pageX - this.baseXY.left + scrollLeft,
           endY: event.pageY - this.baseXY.top + scrollTop
@@ -78,11 +87,14 @@ class DrawLines extends Component {
       const className = eventDom && eventDom.className;
       if (className && typeof className === "string" && className.indexOf("target-column-icon") > -1) {
         const relation = _.assign([], me.props.relation);
-        if(_.find(relation, (o) => {
+        if(!me.props.targetMutiple && _.find(relation, (o) => {// target不允许映射多次
           return o.target.key === me.domOperate(eventDom).key;
+        }) || _.find(relation, (o) => { // 过滤连线已存在的情况
+          return o.target.key === me.domOperate(eventDom).key && o.source.key === me.domOperate(sourceDom).key;
         })) {
           me.props.changeIconStatus();
           me.setState({...defaultState});
+          sourceDom = null;
           return;
         }
         const targetData = _.find(me.props.targetData, (o) => {
@@ -100,8 +112,9 @@ class DrawLines extends Component {
             ...targetData
           }
         });
-        me.props.onDrawEnd && me.props.onDrawEnd(sourceData, targetData, relation);
+        me.props.onDrawEnd(sourceData, targetData, relation);
         me.props.onChange(relation);
+        sourceDom = null;
       }
       me.props.changeIconStatus();
       me.setState({...defaultState});
@@ -133,7 +146,7 @@ class DrawLines extends Component {
   }
   render() {
     const { startX, startY, drawing, endX, endY } = this.state;
-    const { relation, currentRelation, edit } = this.props;
+    const { relation, currentRelation, edit, closeIcon } = this.props;
     return <div className="lines-area" ref={me => {this.drawEle = me;}}>
       <svg width="100%" height="100%" version="1.1"
            xmlns="http://www.w3.org/2000/svg">
@@ -160,6 +173,7 @@ class DrawLines extends Component {
             endY={item.target.y}
             data={item}
             edit={edit}
+            closeIcon={closeIcon}
             toTop={this.topLine.bind(this)}
             currentRelation={currentRelation}
             removeRelation={this.removeRelation.bind(this)}
@@ -179,4 +193,24 @@ class DrawLines extends Component {
   }
 }
 
+DrawLines.propTypes = {
+  sourceData: PropTypes.array.isRequired,
+  targetData: PropTypes.array.isRequired,
+  sourceMutiple: PropTypes.bool.isRequired,
+  targetMutiple: PropTypes.bool.isRequired,
+  onDrawStart: PropTypes.func,
+  onDrawing: PropTypes.func,
+  onDrawEnd: PropTypes.func,
+  relation: PropTypes.array.isRequired,
+  edit: PropTypes.bool.isRequired,
+  currentRelation: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+  changeIconStatus: PropTypes.func.isRequired,
+  closeIcon: PropTypes.string
+};
+DrawLines.defaultProps = {
+  onDrawStart: () => {},
+  onDrawing: () => {},
+  onDrawEnd: () => {}
+};
 export default DrawLines;

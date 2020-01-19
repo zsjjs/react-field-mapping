@@ -1,6 +1,6 @@
 {
   "name": "react-field-mapping",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "基于react的表字段映射组件",
   "scripts": {
     "check": "jsinspect ./src",
@@ -57,13 +57,13 @@
     "cross-env": "^6.0.0",
     "css-loader": "^3.2.0",
     "less-loader": "^5.0.0",
+    "lodash": "^4.17.15",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "sortablejs": "^1.7.0",
     "style-loader": "^1.0.0",
     "url-loader": "^2.1.0",
     "webpack": "^4.40.2",
-    "webpack-cli": "^3.3.9",
-    "lodash": "^4.17.11",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "sortablejs": "^1.7.0"
+    "webpack-cli": "^3.3.9"
   }
 }

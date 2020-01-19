@@ -67,8 +67,8 @@ class FieldMapping extends Component {
   changeSource(oldIndex, newIndex) {
     const {
       source: {
-        data: sourceData,
-        onChange
+        data: sourceData = [],
+        onChange = () => {}
       }
     } = this.props;
     let data = _.assign([], sourceData);
@@ -84,8 +84,8 @@ class FieldMapping extends Component {
   changeTarget(oldIndex, newIndex) {
     const {
       target: {
-        data: targetData,
-        onChange
+        data: targetData = [],
+        onChange = () => {}
       }
     } = this.props;
     let data = _.assign([], targetData);
@@ -102,12 +102,14 @@ class FieldMapping extends Component {
     const { relation, iconStatus, currentRelation } = this.state;
     const {
       source: {
-        data: sourceData,
-        columns: sourceCols
+        data: sourceData = [],
+        columns: sourceCols = [],
+        mutiple: sourceMutiple = false
       },
       target: {
-        data: targetData,
-        columns: targetCols
+        data: targetData = [],
+        columns: targetCols = [],
+        mutiple: targetMutiple = false
       },
       className = "",
       style = {},
@@ -115,9 +117,9 @@ class FieldMapping extends Component {
       onDrawStart,
       onDrawing,
       onDrawEnd,
-      edit
+      edit,
+      closeIcon
     } = this.props;
-
     const sourceOpt = {
       ref: (me) => {this.sourceCom = me;},
       iconStatus,
@@ -145,11 +147,14 @@ class FieldMapping extends Component {
     const drawLinesOpt = {
       sourceData,
       targetData,
+      sourceMutiple,
+      targetMutiple,
       onDrawStart,
       onDrawing,
       onDrawEnd,
       relation,
       edit,
+      closeIcon,
       currentRelation,
       onChange: this.changeRelation.bind(this),
       changeIconStatus: this.changeIconStatus.bind(this)
@@ -168,6 +173,7 @@ FieldMapping.propTypes = {
   source: PropTypes.shape({
     data: PropTypes.array, // required param key
     onChange: PropTypes.func, // 源表data改变后触发，目前只有排序会触发。isSort开启后，必须在外层同步。
+    mutiple: PropTypes.bool, //是否允许一个source连接多个target
     columns: PropTypes.arrayOf(PropTypes.shape({
       title: PropTypes.string.isRequired,
       key: PropTypes.string.isRequired,
@@ -183,6 +189,7 @@ FieldMapping.propTypes = {
   target: PropTypes.shape({
     data: PropTypes.array, // required param key
     onChange: PropTypes.func, // 目标表data改变后触发，目前只有排序会触发。
+    mutiple: PropTypes.bool, //是否允许多个source连接一个target
     columns: PropTypes.arrayOf(PropTypes.shape({
       title: PropTypes.string.isRequired,
       key: PropTypes.string.isRequired,
@@ -201,19 +208,22 @@ FieldMapping.propTypes = {
   onDrawStart: PropTypes.func,// function(params=source, relation)
   onDrawing: PropTypes.func,// function(params=source, relation)
   onDrawEnd: PropTypes.func,// function(params=source, relation)
-  edit: PropTypes.bool // 是否能操作线条编辑 default true
+  edit: PropTypes.bool, // 是否能操作线条编辑 default true
+  closeIcon: PropTypes.string // 关闭线条的icon url，不传用默认的关闭按钮
 };
 FieldMapping.defaultProps = {
   relation: [],
   source: {
     data: [],
     onChange: () => {},
-    columns: []
+    columns: [],
+    mutiple: false
   },
   target: {
     data: [],
     onChange: () => {},
-    columns: []
+    columns: [],
+    mutiple: false
   },
   edit: true
 };
