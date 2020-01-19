@@ -137,7 +137,7 @@ class SourceData extends Component {
   }
 }
 SourceData.propTypes = {
-  iconStatus: PropTypes.string,
+  iconStatus: PropTypes.object,
   relation: PropTypes.array.isRequired,
   columns: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,

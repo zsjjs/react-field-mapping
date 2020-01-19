@@ -136,7 +136,7 @@ class TargetData extends Component {
 }
 
 TargetData.propTypes = {
-  iconStatus: PropTypes.string,
+  iconStatus: PropTypes.object,
   relation: PropTypes.array.isRequired,
   columns: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
