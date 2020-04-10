@@ -101,7 +101,7 @@
   </tr>
   <tr>
     <td colspan="2">relation</td>
-    <td>默认已映射数据</td>
+    <td>映射数据（不受控，但是不等同default，可以update）</td>
     <td align="center">array[{source:{name,type}, target:{name,type}}]</td>
     <td align="center">[]</td>
   </tr>

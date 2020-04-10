@@ -2,15 +2,16 @@
  * @date 2018.11
 */
 module.exports = {
+  "parser":  "@typescript-eslint/parser",
   "env": {
     "browser": true,
     "commonjs": true,
     "es6": true
   },
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    'plugin:@typescript-eslint/recommended'
   ],
-  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -19,7 +20,8 @@ module.exports = {
     "sourceType": "module"
   },
   "plugins": [
-    "react"
+    "react",
+    "@typescript-eslint"
   ],
   "rules": {
     //可以使用console
@@ -70,7 +72,7 @@ module.exports = {
     "prefer-const": 2,
     //要求使用模板字面量而非字符串连接
     "prefer-template": 2,
-    //在定义对象或数组时，最后一项不能加逗号
-    "comma-dangle": [2, "never"]
+    "@typescript-eslint/no-var-requires": 0,
+    "@typescript-eslint/no-empty-function": 0
   }
 };

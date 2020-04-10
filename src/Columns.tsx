@@ -1,22 +1,24 @@
-import {Component} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { isElement } from 'react-dom/test-utils';
+import { ColumnsProps } from './types';
 
-class Columns extends Component {
+class Columns extends React.Component<ColumnsProps, null> {
   constructor(props) {
     super(props);
   }
-  customRender(opts, data, idx) {
+
+  customRender(opts, data, idx): boolean {
     const { key, render } = opts;
     let result = false;
-    if(isElement(render) || typeof render === 'string') {
+    if (isElement(render) || typeof render === 'string') {
       result = render;
     } else if (typeof render === 'function') {
       result = render(data[key], data, idx);
     }
     return result;
   }
-  render() {
+
+  render(): React.ReactElement {
     const { item, index, columnOpt, sorting, columns, type, edit } = this.props;
     return <li {...columnOpt(item, index)} >
       {
@@ -28,7 +30,7 @@ class Columns extends Component {
               style={{
                 width: column.width,
                 textAlign: column.align
-              }}
+              } as React.CSSProperties}
               title={item[column.key] || ''}
             >
               {
@@ -39,18 +41,9 @@ class Columns extends Component {
           );
         })
       }
-      <div style={{visibility: edit && item.iconShow}} className={`column-icon ${type}-column-icon ${sorting ? "sorting" : ""} ${edit ? "" : "disabled"}`}></div>
+      <div style={{visibility: edit && item.iconShow}} className={`column-icon ${type}-column-icon ${sorting ? "sorting" : ""} ${edit ? "" : "disabled"}`} />
     </li>;
   }
 }
 
-Columns.propTypes = {
-  columns: PropTypes.array.isRequired,
-  columnOpt: PropTypes.func.isRequired,
-  sorting: PropTypes.bool.isRequired,
-  item: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
-  edit: PropTypes.bool.isRequired
-};
 export default Columns;

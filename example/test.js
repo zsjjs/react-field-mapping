@@ -4,7 +4,7 @@
  * @Date: 2019-03-11 16:43:26
  * @LastEditTime : 2020-01-19 15:21:57
  */
-/* global React, ReactDOM  */
+/* eslint-disable */
 const sourceCols = [
   { title: '源表字段', key: 'name', width: '80px' },
   { title: '类型', key: 'type', width: '100px' },
