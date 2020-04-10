@@ -1,62 +1,76 @@
 /* @author yanjun.zsj
  * @date 2018.11
 */
-import {Component} from 'react';
-import PropTypes from 'prop-types';
-import { getOffset } from './util.js';
-import Line from './line.jsx';
+import React from 'react';
+import { getOffset } from './util';
+import Line from './line';
 import _ from 'lodash';
+import { DrawLinesProps, DrawLinesState } from './types';
 
+export interface DomOperateTypes {
+  key: string;
+  left: number;
+  top: number;
+}
 const defaultState = {
+  drawing: false,
+  endX: 0,
+  endY: 0,
   sourceData: {},
   startX: 0,
   startY: 0,
-  drawing: false,
-  endX: 0,
-  endY: 0
 };
 
-class DrawLines extends Component {
+class DrawLines extends React.Component<DrawLinesProps, DrawLinesState> {
+  drawEle: HTMLElement;
+
+  static defaultProps = {
+    onDrawStart: (): void => {},
+    onDrawing: (): void => {},
+    onDrawEnd: (): void => {}
+  };
+
   baseXY = {
     left: 0,
     top: 0
-  }
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       ...defaultState
     };
   }
-  componentDidMount() {
-    const me = this;
+
+  componentDidMount(): void {
     this.baseXY = getOffset(this.drawEle);
     const box = document.querySelector('.react-field-mapping-box');
     let scrollTop = 0;
     let scrollLeft = 0;
     let sourceDom = null;
-    document.documentElement.onmousedown = (event) => {
-      const eventDom = event.target;
+    document.documentElement.onmousedown = (event): void => {
+      const eventDom = event.target as unknown as HTMLElement;
       sourceDom = eventDom;
-      const className = eventDom && eventDom.className;
+      const className = eventDom && eventDom.className || '';
       if (className && typeof className === "string" && className.indexOf("source-column-icon") > -1) {
         event.preventDefault();
-        const relation = _.assign([], me.props.relation);
-        if(!me.props.sourceMutiple && _.find(relation, (o) => {
-          return o.source.key === me.domOperate(eventDom).key;
+        const relation = _.assign([], this.props.relation);
+        if (!this.props.sourceMutiple && _.find(relation, (o) => {
+          return o.source.key === this.domOperate(eventDom).key;
         })) {
           return;
         }
-        if(this.baseXY !== getOffset(this.drawEle)) {
+        if (this.baseXY !== getOffset(this.drawEle)) {
           this.baseXY = getOffset(this.drawEle);
         }
         let scrollEle = box;
         document.body.classList.add("user-select-none");
-        const sourceData = _.find(me.props.sourceData, (o) => {
+        const sourceData = _.find(this.props.sourceData, (o) => {
           return o.key === this.domOperate(eventDom).key;
         });
-        me.props.onDrawStart(sourceData, me.props.relation);
-        me.props.changeIconStatus(sourceData);
-        me.setState({
+        this.props.onDrawStart(sourceData, this.props.relation);
+        this.props.changeIconStatus(sourceData);
+        this.setState({
           startX: this.domOperate(eventDom).left,
           startY: this.domOperate(eventDom).top,
           endX: this.domOperate(eventDom).left,
@@ -64,41 +78,41 @@ class DrawLines extends Component {
           drawing: true,
           sourceData
         });
-        while(scrollEle.tagName !== 'BODY') {
+        while (scrollEle.tagName !== 'BODY') {
           scrollTop += scrollEle.scrollTop;
           scrollLeft += scrollEle.scrollLeft;
           scrollEle = scrollEle.parentElement;
         }
       }
     };
-    document.documentElement.onmousemove = (event) => {
+    document.documentElement.onmousemove = (event): void => {
       if (this.state.drawing) {
-        me.props.onDrawing(me.state.sourceData, me.props.relation);
-        me.setState({
+        this.props.onDrawing(this.state.sourceData, this.props.relation);
+        this.setState({
           endX: event.pageX - this.baseXY.left + scrollLeft,
           endY: event.pageY - this.baseXY.top + scrollTop
         });
       }
     };
-    document.documentElement.onmouseup = (event) => {
+    document.documentElement.onmouseup = (event): void => {
       document.body.classList.remove("user-select-none");
-      const { startX, startY, sourceData } = me.state;
-      const eventDom = event.target;
-      const className = eventDom && eventDom.className;
+      const { startX, startY, sourceData } = this.state;
+      const eventDom = event.target as unknown as HTMLElement;
+      const className = eventDom && eventDom.className || '';
       if (className && typeof className === "string" && className.indexOf("target-column-icon") > -1) {
-        const relation = _.assign([], me.props.relation);
-        if(!me.props.targetMutiple && _.find(relation, (o) => {// target不允许映射多次
-          return o.target.key === me.domOperate(eventDom).key;
+        const relation = _.assign([], this.props.relation);
+        if (!this.props.targetMutiple && _.find(relation, (o) => {// target不允许映射多次
+          return o.target.key === this.domOperate(eventDom).key;
         }) || _.find(relation, (o) => { // 过滤连线已存在的情况
-          return o.target.key === me.domOperate(eventDom).key && o.source.key === me.domOperate(sourceDom).key;
+          return o.target.key === this.domOperate(eventDom).key && o.source.key === this.domOperate(sourceDom).key;
         })) {
-          me.props.changeIconStatus();
-          me.setState({...defaultState});
+          this.props.changeIconStatus();
+          this.setState({...defaultState});
           sourceDom = null;
           return;
         }
-        const targetData = _.find(me.props.targetData, (o) => {
-          return o.key === me.domOperate(eventDom).key;
+        const targetData = _.find(this.props.targetData, (o) => {
+          return o.key === this.domOperate(eventDom).key;
         });
         relation.push({
           source: {
@@ -107,36 +121,37 @@ class DrawLines extends Component {
             ...sourceData
           },
           target: {
-            x: me.domOperate(eventDom).left,
-            y: me.domOperate(eventDom).top,
+            x: this.domOperate(eventDom).left,
+            y: this.domOperate(eventDom).top,
             ...targetData
           }
         });
-        me.props.onDrawEnd(sourceData, targetData, relation);
-        me.props.onChange(relation);
+        this.props.onDrawEnd(sourceData, targetData, relation);
+        this.props.onChange(relation);
         sourceDom = null;
       }
-      me.props.changeIconStatus();
-      me.setState({...defaultState});
+      this.props.changeIconStatus();
+      this.setState({...defaultState});
       scrollTop = 0;
       scrollLeft = 0;
     };
   }
-  domOperate(eventDom) {
+
+  domOperate(eventDom): DomOperateTypes {
     return {
+      key: eventDom.offsetParent.getAttribute('data-key'),
       left: getOffset(eventDom).left - this.baseXY.left + 3,
-      top: getOffset(eventDom).top - this.baseXY.top + 6,
-      key: eventDom.offsetParent.getAttribute('data-key')
+      top: getOffset(eventDom).top - this.baseXY.top + 6
     };
   }
-  removeRelation(removeNode) {
+  removeRelation = (removeNode): void => {
     const relation = _.assign([], this.props.relation);
     _.remove(relation, item => {
       return (item === removeNode);
     });
     this.props.onChange(relation);
   }
-  topLine(item) {
+  topLine = (item): void => {
     const relation = _.assign([], this.props.relation);
     _.remove(relation, (n) => {
       return n === item;
@@ -144,12 +159,13 @@ class DrawLines extends Component {
     relation.push(item);
     this.props.onChange(relation);
   }
-  render() {
+  render(): React.ReactElement {
     const { startX, startY, drawing, endX, endY } = this.state;
     const { relation, currentRelation, edit, closeIcon } = this.props;
-    return <div className="lines-area" ref={me => {this.drawEle = me;}}>
-      <svg width="100%" height="100%" version="1.1"
-           xmlns="http://www.w3.org/2000/svg">
+    return <div className="lines-area" ref={(me): void => {
+      this.drawEle = me;
+    }}>
+      <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <marker
             className="path"
@@ -174,9 +190,9 @@ class DrawLines extends Component {
             data={item}
             edit={edit}
             closeIcon={closeIcon}
-            toTop={this.topLine.bind(this)}
+            toTop={this.topLine}
             currentRelation={currentRelation}
-            removeRelation={this.removeRelation.bind(this)}
+            removeRelation={this.removeRelation}
           />)}
         </g>
         {drawing && <g className="path">
@@ -193,24 +209,4 @@ class DrawLines extends Component {
   }
 }
 
-DrawLines.propTypes = {
-  sourceData: PropTypes.array.isRequired,
-  targetData: PropTypes.array.isRequired,
-  sourceMutiple: PropTypes.bool.isRequired,
-  targetMutiple: PropTypes.bool.isRequired,
-  onDrawStart: PropTypes.func,
-  onDrawing: PropTypes.func,
-  onDrawEnd: PropTypes.func,
-  relation: PropTypes.array.isRequired,
-  edit: PropTypes.bool.isRequired,
-  currentRelation: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  changeIconStatus: PropTypes.func.isRequired,
-  closeIcon: PropTypes.string
-};
-DrawLines.defaultProps = {
-  onDrawStart: () => {},
-  onDrawing: () => {},
-  onDrawEnd: () => {}
-};
 export default DrawLines;

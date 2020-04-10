@@ -2,52 +2,79 @@
  * @date 2018.11
 */
 import './fieldMapping.less';
-import {Component} from 'react';
-import SourceData from './SourceData.jsx';
-import TargetData from './TargetData.jsx';
-import DrawLines from './DrawLines.jsx';
-import PropTypes from 'prop-types';
-import { calCoord } from './util.js';
+import React from 'react';
+import SourceData from './sourceData';
+import TargetData from './targetData';
+import DrawLines from './drawLines';
+import { calCoord } from './util';
 import _ from 'lodash';
+import {
+  FieldMappingProps,
+  FieldMappingState,
+  DataTypes
+} from './types';
 
-class FieldMapping extends Component {
-  constructor(props) {
+
+class FieldMapping extends React.Component<FieldMappingProps, FieldMappingState> {
+  sourceCom: React.Ref<FieldMapping>
+  targetCom: React.Ref<FieldMapping>
+
+  static defaultProps = {
+    relation: [],
+    source: {
+      data: [],
+      onChange: (): void => {},
+      columns: [],
+      mutiple: false
+    },
+    target: {
+      data: [],
+      onChange: (): void => {},
+      columns: [],
+      mutiple: false
+    },
+    edit: true
+  }
+
+  constructor(props: FieldMappingProps) {
     super(props);
     this.state = {
       relation: [],
       currentRelation: {}
     };
   }
-  componentWillReceiveProps(nextProps) {
+
+  componentWillReceiveProps(nextProps: FieldMappingProps): void {
     if (nextProps.relation !== this.props.relation) {
       const relation = calCoord(_.assign([], nextProps.relation), this);
       this.changeRelation(relation, false);
     }
   }
-  componentDidMount() {
+  componentDidMount(): void {
     const relation = calCoord(_.assign([], this.props.relation), this);
     if(relation.length > 0) {
       this.changeRelation(relation, false);
     }
   }
-  uniqWith(data) {
+  uniqWith(data): DataTypes[] {
     return _.uniqWith(data, (n1, n2) => {
       return n1.key === n2.key;
     }).filter(item => !!item.key);
   }
-  changeRelation(relation, isUpdate = true) {
+
+  changeRelation(relation, isUpdate = true): void {
     this.setState({
       relation
     }, () => {
       isUpdate && this.props.onChange && this.props.onChange(relation);
     });
   }
-  changeIconStatus(iconStatus) {
+  changeIconStatus(iconStatus): void{
     this.setState({
       iconStatus
     });
   }
-  overActive(item, type, active) {
+  overActive(item, type, active): void {
     const relation = _.assign([], this.state.relation);
     let currentRelation = {};
     relation.map(n => {
@@ -64,11 +91,11 @@ class FieldMapping extends Component {
       currentRelation
     });
   }
-  changeSource(oldIndex, newIndex) {
+  changeSource(oldIndex, newIndex): void {
     const {
       source: {
         data: sourceData = [],
-        onChange = () => {}
+        onChange = (): void => {}
       }
     } = this.props;
     let data = _.assign([], sourceData);
@@ -81,11 +108,11 @@ class FieldMapping extends Component {
     const relation = calCoord(_.assign([], this.props.relation), this);
     this.changeRelation(relation, false);
   }
-  changeTarget(oldIndex, newIndex) {
+  changeTarget(oldIndex, newIndex): void {
     const {
       target: {
         data: targetData = [],
-        onChange = () => {}
+        onChange = (): void => {}
       }
     } = this.props;
     let data = _.assign([], targetData);
@@ -98,7 +125,7 @@ class FieldMapping extends Component {
     const relation = calCoord(_.assign([], this.props.relation), this);
     this.changeRelation(relation, false);
   }
-  render() {
+  render(): React.ReactElement {
     const { relation, iconStatus, currentRelation } = this.state;
     const {
       source: {
@@ -121,7 +148,7 @@ class FieldMapping extends Component {
       closeIcon
     } = this.props;
     const sourceOpt = {
-      ref: (me) => {this.sourceCom = me;},
+      ref: (me): void => {this.sourceCom = me;},
       iconStatus,
       relation,
       columns: sourceCols,
@@ -133,7 +160,7 @@ class FieldMapping extends Component {
       overActive: this.overActive.bind(this)
     };
     const targetOpt = {
-      ref: (me) => {this.targetCom = me;},
+      ref: (me): void => {this.targetCom = me;},
       iconStatus,
       relation,
       columns: targetCols,
@@ -166,65 +193,4 @@ class FieldMapping extends Component {
     </div>;
   }
 }
-
-FieldMapping.propTypes = {
-  className: PropTypes.string,
-  style: PropTypes.object,
-  source: PropTypes.shape({
-    data: PropTypes.array, // required param key
-    onChange: PropTypes.func, // 源表data改变后触发，目前只有排序会触发。isSort开启后，必须在外层同步。
-    mutiple: PropTypes.bool, //是否允许一个source连接多个target
-    columns: PropTypes.arrayOf(PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      key: PropTypes.string.isRequired,
-      width: PropTypes.string.isRequired,
-      align: PropTypes.string,
-      render: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.func,
-        PropTypes.element
-      ])
-    }))
-  }),
-  target: PropTypes.shape({
-    data: PropTypes.array, // required param key
-    onChange: PropTypes.func, // 目标表data改变后触发，目前只有排序会触发。
-    mutiple: PropTypes.bool, //是否允许多个source连接一个target
-    columns: PropTypes.arrayOf(PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      key: PropTypes.string.isRequired,
-      width: PropTypes.string.isRequired,
-      align: PropTypes.string,
-      render: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.func,
-        PropTypes.element
-      ])
-    }))
-  }),
-  relation: PropTypes.array,// [{source:{name, type}, target:{name, type}}], "param {source:{name},target:{name}} is required"
-  isSort: PropTypes.bool,// 是否开启拖拽排序，default true
-  onChange: PropTypes.func, // function(param= relation)
-  onDrawStart: PropTypes.func,// function(params=source, relation)
-  onDrawing: PropTypes.func,// function(params=source, relation)
-  onDrawEnd: PropTypes.func,// function(params=source, relation)
-  edit: PropTypes.bool, // 是否能操作线条编辑 default true
-  closeIcon: PropTypes.string // 关闭线条的icon url，不传用默认的关闭按钮
-};
-FieldMapping.defaultProps = {
-  relation: [],
-  source: {
-    data: [],
-    onChange: () => {},
-    columns: [],
-    mutiple: false
-  },
-  target: {
-    data: [],
-    onChange: () => {},
-    columns: [],
-    mutiple: false
-  },
-  edit: true
-};
 export default FieldMapping;
