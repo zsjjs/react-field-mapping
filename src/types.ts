@@ -87,7 +87,7 @@ export interface DrawLinesProps {
   relation: OneRelation[];
   edit: boolean;
   currentRelation: OneRelation;
-  onChange?: (relation?: OneRelation[]) => void;
+  onChange?: (relation?: OneRelation[], isUpdate?: boolean) => void;
   changeIconStatus: (data?: OneRelation) => void;
   closeIcon: string;
 }
