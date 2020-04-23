@@ -157,7 +157,7 @@ class DrawLines extends React.Component<DrawLinesProps, DrawLinesState> {
       return n === item;
     });
     relation.push(item);
-    this.props.onChange(relation);
+    this.props.onChange(relation, false);
   }
   render(): React.ReactElement {
     const { startX, startY, drawing, endX, endY } = this.state;
