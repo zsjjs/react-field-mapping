@@ -22,7 +22,7 @@ class Columns extends React.Component<ColumnsProps, null> {
     const { item, index, columnOpt, sorting, columns, type, edit } = this.props;
     return <li {...columnOpt(item, index)} >
       {
-        columns.map((column, idx) => {
+        columns.map((column) => {
           return (
             <span
               key={column.key}
@@ -34,7 +34,7 @@ class Columns extends React.Component<ColumnsProps, null> {
               title={item[column.key] || ''}
             >
               {
-                this.customRender(column, item, idx) ||
+                this.customRender(column, item, index) ||
                 item[column.key]
               }
             </span>
