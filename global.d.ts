@@ -1,5 +1,5 @@
 declare interface Window {
-  FieldMapping: any
+  FieldMapping: any;
 }
 
 declare module '*.less' {
