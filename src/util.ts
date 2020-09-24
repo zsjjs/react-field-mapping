@@ -57,22 +57,25 @@ export const calCoord = (data = [], FieldMapping): OneRelation[] => {
     }
   } = FieldMapping.props;
   return data.map(item => {
-    let sourceNum = 0;
-    let targetNum = 0;
+    let sourceNum;
+    let targetNum;
     const sourceEle = FieldMapping.sourceCom.boxEle.querySelector('.column-content');
     const targetEle = FieldMapping.targetCom.boxEle.querySelector('.column-content');
     const sourceName = item.source.key;
     const targetName = item.target.key;
-    sourceData.map((n, i) => {
+    sourceData.forEach((n, i) => {
       if (n.key === sourceName) {
         sourceNum = i;
       }
     });
-    targetData.map((n, i) => {
+    targetData.forEach((n, i) => {
       if (n.key === targetName) {
         targetNum = i;
       }
     });
+    if(typeof sourceNum === 'undefined' || typeof targetNum === 'undefined') {
+      return null;
+    }
     const sourcePoint = sourceEle.getElementsByTagName('li')[sourceNum] &&
       sourceEle.getElementsByTagName('li')[sourceNum].querySelector('.column-icon');
     const targetPoint = targetEle.getElementsByTagName('li')[targetNum] &&
@@ -82,5 +85,5 @@ export const calCoord = (data = [], FieldMapping): OneRelation[] => {
     item.target.x = getOffset(targetPoint).left - baseXY.left + 3;
     item.target.y = getOffset(targetPoint).top - baseXY.top + 6;
     return item;
-  });
+  }).filter(relation => relation);
 };
